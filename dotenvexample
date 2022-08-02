@@ -1,0 +1,7 @@
+DB_USER_POSTGRES = 'username'
+DB_PWD_POSTGRES = 'password'
+JDBC_URL_POSTGRES = 'jdbc:{mysql/postgresql}://{HOST}/{DATABASE}'
+
+DB_USER_MYSQL = 'username'
+DB_PWD_MYSQL = 'password'
+JDBC_URL_MYSQL = 'jdbc:{mysql/postgresql}://{HOST}/{DATABASE}'
