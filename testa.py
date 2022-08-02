@@ -1,3 +1,5 @@
+import sys
+
 import findspark
 
 findspark.find()
@@ -6,14 +8,14 @@ import os
 from pyspark.sql import SparkSession, Row
 import pandas as pd
 from dotenv import load_dotenv
-
+from pyspark.sql.functions import col
 # Take variables from .env file
 load_dotenv()
 
 
 class SparkSessionClass():
 
-    def create_spark_session(self, app_name, spark_jars, master=None) -> None:
+    def create_spark_session(self, app_name: str, spark_jars: str, master: str = None) -> None:
         """
         Gets of creates a spark session for ths specific app_name
 
@@ -35,7 +37,7 @@ class SparkSessionClass():
         return self.spark_session
 
 
-def create_pyspark_df_from_excel(file_path, columns_names_list=None):
+def create_pyspark_df_from_excel(file_path: str, columns_names_list: list):
     """
     Creates PySpark dataframe from excel file.
 
@@ -61,7 +63,7 @@ def create_pyspark_df_from_excel(file_path, columns_names_list=None):
     return df
 
 
-def write_to_db_table(df, url, dbtable, user, password, driver):
+def write_to_db_table(df, url: str, dbtable: str, user: str, password: str, driver: str, mode: str) -> None:
     """
     Writes data from PySpark dataframe to database table.
 
@@ -70,19 +72,33 @@ def write_to_db_table(df, url, dbtable, user, password, driver):
     :param: user: db username'
     :param: password: db password'
     :param: driver: example 'org.postgresql.Driver'
+    :param: mode: example 'append' / 'overwrite'...
     """
-    df.write.format("jdbc") \
-        .mode("append") \
-        .option("url", url) \
-        .option("dbtable", dbtable) \
-        .option("user", user) \
-        .option("password", password) \
-        .option("driver", driver) \
-        .save()
-    print('DATA HAS BEEN ADDED TO DATABASE!')
+    if mode == 'overwrite':
+        df.write.format("jdbc") \
+            .mode("overwrite") \
+            .option("url", url) \
+            .option("dbtable", dbtable) \
+            .option("user", user) \
+            .option("password", password) \
+            .option("driver", driver) \
+            .option("truncate", "true") \
+            .save()
+        print('DATA HAS BEEN ADDED TO DATABASE with overwrite mode!')
+
+    elif mode == 'append':
+        df.write.format("jdbc") \
+            .mode("append") \
+            .option("url", url) \
+            .option("dbtable", dbtable) \
+            .option("user", user) \
+            .option("password", password) \
+            .option("driver", driver) \
+            .save()
+        print('DATA HAS BEEN ADDED TO DATABASE with append mode!')
 
 
-def read_df_from_table(url, dbtable, user, password, driver):
+def read_df_from_table(url: str, dbtable: str, user: str, password: str, driver: str):
     """
     Reads data from database table (returns PySpark dataframe).
 
@@ -108,7 +124,8 @@ def read_df_from_table(url, dbtable, user, password, driver):
 # Spark Session Creation
 
 spark_jars = r"C:\minidisc\MyProjects\practice1\jars\mysql-connector-java-8.0.30.jar, " \
-             r"C:\minidisc\MyProjects\practice1\jars\postgresql-42.4.0.jar "
+             r"C:\minidisc\MyProjects\practice1\jars\postgresql-42.4.0.jar, " \
+             r"C:\minidisc\MyProjects\practice1\jars\spark-excel_2.12-3.2.1_0.17.1.jar"
 
 spark = SparkSessionClass().create_spark_session(app_name='PysparkApp', spark_jars=spark_jars)
 print('Session Created!')
@@ -132,15 +149,15 @@ driver_postgres = 'org.postgresql.Driver'
 
 ## WRITE DATA TO POSTGRESQL DB TABLE
 
-# write_to_db_table(df=df, url=jdbc_url_postgres, dbtable='codes_one', user=user_postgres, password=password_postgres,
-#                   driver='org.postgresql.Driver')
+# write_to_db_table(df=df, url=jdbc_url_postgres, dbtable='codes_pg', user=user_postgres, password=password_postgres,
+#                   driver='org.postgresql.Driver', mode='append')
 
 
 ## READ data from postgres db
 
-rdf_pg = read_df_from_table(url=jdbc_url_postgres, dbtable='codes_one', user=user_postgres, password=password_postgres,
-                            driver=driver_postgres)
-rdf_pg.show()
+# rdf_pg = read_df_from_table(url=jdbc_url_postgres, dbtable='codes_one', user=user_postgres, password=password_postgres,
+#                             driver=driver_postgres)
+# rdf_pg.show()
 
 
 ### TO MYSQL
@@ -153,10 +170,107 @@ driver_mysql = 'com.mysql.cj.jdbc.Driver'
 ## WRITE DATA TO MYSQL DB TABLE
 
 # write_to_db_table(df=df, url=jdbc_url_mysql, dbtable='codes_two', user=user_mysql, password=password_mysql,
-#                   driver='com.mysql.cj.jdbc.Driver')
+#                   driver='com.mysql.cj.jdbc.Driver', mode='append')
+
 
 ### READ data from mysql table
 
-rdf_mysql = read_df_from_table(url=jdbc_url_mysql, dbtable='codes_two', user=user_mysql, password=password_mysql,
-                               driver=driver_mysql)
-rdf_mysql.show()
+# rdf_mysql = read_df_from_table(url=jdbc_url_mysql, dbtable='codes_two', user=user_mysql, password=password_mysql,
+#                                driver=driver_mysql)
+#
+
+# rdf_mysql.show()
+
+# df.show()
+
+
+### SYNC DATA
+
+
+def check_sync(mysql_table, pg_table):
+    """
+    This function compare tables from two databases and in case of definition of some rows it
+    inserts missing rows to another database. In case of wrong scheme the script just stops and says to check scheme.
+    Fields like user, passwords and drivers should be filled above for correct work!!!
+    """
+
+    # mysql df
+    rdf_mysql = read_df_from_table(url=jdbc_url_mysql, dbtable=mysql_table, user=user_mysql, password=password_mysql,
+                                   driver=driver_mysql)
+
+    # postgres df
+    rdf_pg = read_df_from_table(url=jdbc_url_postgres, dbtable=pg_table, user=user_postgres,
+                                password=password_postgres,
+                                driver=driver_postgres)
+
+    if rdf_mysql.schema == rdf_pg.schema:
+        print('Schema check OK.')
+    else:
+        print('Schemas are not the same! Make identical schemas before checking data!')
+        sys.exit()
+
+    ## Checking different rows
+    df_ms_subtract_pg = rdf_mysql.subtract(rdf_pg)
+    df_pg_subtract_ms = rdf_pg.subtract(rdf_mysql)
+
+    row_difference_ms_count = df_ms_subtract_pg.count()
+    row_difference_pg_count = df_pg_subtract_ms.count()
+
+    if row_difference_ms_count == 0 and row_difference_pg_count == 0:
+        print("Data rows are identical")
+
+    elif row_difference_ms_count > 0 and row_difference_pg_count == 0:
+        print(df_ms_subtract_pg, 'MS')
+        # create sorted by id dataframe of missing rows
+        miss_rows_df_msql = df_ms_subtract_pg.sort(col('id').asc())
+        write_to_db_table(df=miss_rows_df_msql,
+                          url=jdbc_url_postgres,
+                          dbtable=pg_table,
+                          user=user_postgres,
+                          password=password_postgres,
+                          driver=driver_postgres,
+                          mode='overwrite')
+        print('END adding data to POSTGRES table')
+
+    elif row_difference_pg_count > 0 and row_difference_ms_count == 0:
+        print(df_pg_subtract_ms, 'PG')
+        # create sorted by id dataframe of missing rows
+        miss_rows_df_pg = df_pg_subtract_ms.sort(col('id').asc())
+        write_to_db_table(df=miss_rows_df_pg,
+                          url=jdbc_url_mysql,
+                          dbtable=mysql_table,
+                          user=user_mysql,
+                          password=password_mysql,
+                          driver=driver_mysql,
+                          mode='overwrite')
+        print('END adding data to MYSQL table')
+
+    else:
+        print('Different rows in both tables... Preparing data...')
+        # create sorted by id dataframe of missing rows in postgres db
+        miss_rows_df_msql = df_ms_subtract_pg.sort(col('id').asc())
+        write_to_db_table(df=miss_rows_df_msql,
+                          url=jdbc_url_postgres,
+                          dbtable=pg_table,
+                          user=user_postgres,
+                          password=password_postgres,
+                          driver=driver_postgres,
+                          mode='overwrite')
+        print('END adding data to POSTGRES table')
+
+        # create sorted by id dataframe of missing rows in mysql db
+        miss_rows_df_pg = df_pg_subtract_ms.sort(col('id').asc())
+        write_to_db_table(df=miss_rows_df_pg,
+                          url=jdbc_url_mysql,
+                          dbtable=mysql_table,
+                          user=user_mysql,
+                          password=password_mysql,
+                          driver=driver_mysql,
+                          mode='overwrite')
+        print('END adding data to MYSQL table')
+        print('SUCCESS!!!')
+
+mysql_table1 = 'codes_ms'
+pg_table1 = 'codes_pg'
+
+check_sync(mysql_table=mysql_table1, pg_table=pg_table1)
