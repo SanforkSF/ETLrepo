@@ -9,8 +9,18 @@ from pyspark.sql import SparkSession, Row
 import pandas as pd
 from dotenv import load_dotenv
 from pyspark.sql.functions import col
+import logging
+
 # Take variables from .env file
 load_dotenv()
+
+# Config logger
+logging.basicConfig(filename='logs.txt',
+                    filemode='a',
+                    format='%(asctime)s,%(msecs)d %(name)s %(levelname)s %(message)s',
+                    datefmt='%H:%M:%S',
+                    level=logging.INFO)
+logger = logging.getLogger('etl_logger')
 
 
 class SparkSessionClass():
@@ -129,7 +139,7 @@ spark_jars = r"C:\minidisc\MyProjects\practice1\jars\mysql-connector-java-8.0.30
 
 spark = SparkSessionClass().create_spark_session(app_name='PysparkApp', spark_jars=spark_jars)
 print('Session Created!')
-
+logger.info('PySpark Session Created!')
 # Dataframe (df) creation
 
 file_path = 'C:\minidisc\MyProjects\practice1\storagefiles\kodyfikator-2.xlsx'
@@ -137,8 +147,8 @@ file_path = 'C:\minidisc\MyProjects\practice1\storagefiles\kodyfikator-2.xlsx'
 columns_names_list = ['first_level', 'second_level', 'third_level', 'fourth_level', 'extra_level', 'category',
                       'object_name']
 
-df = create_pyspark_df_from_excel(file_path=file_path, columns_names_list=columns_names_list)
-print('PySpark DF OK.')
+# df = create_pyspark_df_from_excel(file_path=file_path, columns_names_list=columns_names_list)
+# print('PySpark DF OK.')
 
 ## TO POSTGRESQL
 
@@ -152,6 +162,7 @@ driver_postgres = 'org.postgresql.Driver'
 # write_to_db_table(df=df, url=jdbc_url_postgres, dbtable='codes_pg', user=user_postgres, password=password_postgres,
 #                   driver='org.postgresql.Driver', mode='append')
 
+# logger.info('Data has been written to Postgresql DB table!')
 
 ## READ data from postgres db
 
@@ -171,6 +182,7 @@ driver_mysql = 'com.mysql.cj.jdbc.Driver'
 
 # write_to_db_table(df=df, url=jdbc_url_mysql, dbtable='codes_two', user=user_mysql, password=password_mysql,
 #                   driver='com.mysql.cj.jdbc.Driver', mode='append')
+# logger.info('Data has been written to MySQL DB table!')
 
 
 ### READ data from mysql table
@@ -187,7 +199,7 @@ driver_mysql = 'com.mysql.cj.jdbc.Driver'
 ### SYNC DATA
 
 
-def check_sync(mysql_table, pg_table):
+def check_sync(mysql_table: str, pg_table: str):
     """
     This function compare tables from two databases and in case of definition of some rows it
     inserts missing rows to another database. In case of wrong scheme the script just stops and says to check scheme.
@@ -205,70 +217,92 @@ def check_sync(mysql_table, pg_table):
 
     if rdf_mysql.schema == rdf_pg.schema:
         print('Schema check OK.')
+        logger.info('Schema check OK.')
+
     else:
         print('Schemas are not the same! Make identical schemas before checking data!')
+        logger.warning('Schemas are not the same! Make identical schemas before checking data!')
+
         sys.exit()
 
     ## Checking different rows
-    df_ms_subtract_pg = rdf_mysql.subtract(rdf_pg)
-    df_pg_subtract_ms = rdf_pg.subtract(rdf_mysql)
+    df_mysql_subtract_pg = rdf_mysql.subtract(rdf_pg)  # dataframe rows are in mysql but not in posgres;
+    df_pg_subtract_mysql = rdf_pg.subtract(rdf_mysql)  # dataframe rows are in postgres but not in mysql;
 
-    row_difference_ms_count = df_ms_subtract_pg.count()
-    row_difference_pg_count = df_pg_subtract_ms.count()
+    row_different_in_mysql_count = df_mysql_subtract_pg.count()
+    row_different_in_posgres_count = df_pg_subtract_mysql.count()
 
-    if row_difference_ms_count == 0 and row_difference_pg_count == 0:
+    if row_different_in_mysql_count == 0 and row_different_in_posgres_count == 0:
         print("Data rows are identical")
+        logger.info('Data rows are identical!')
 
-    elif row_difference_ms_count > 0 and row_difference_pg_count == 0:
-        print(df_ms_subtract_pg, 'MS')
+
+    elif row_different_in_mysql_count > 0 and row_different_in_posgres_count == 0:
+        # if mysql table has missed rows in postgresql table
+        print('Preparing to insert missed data into Postgres table...')
+        logger.info('Preparing to insert missed data into Postgres table...')
+
         # create sorted by id dataframe of missing rows
-        miss_rows_df_msql = df_ms_subtract_pg.sort(col('id').asc())
-        write_to_db_table(df=miss_rows_df_msql,
+        df_rows_not_in_postgres_from_mysql = df_mysql_subtract_pg.sort(col('id').asc())
+        write_to_db_table(df=df_rows_not_in_postgres_from_mysql,
                           url=jdbc_url_postgres,
                           dbtable=pg_table,
                           user=user_postgres,
                           password=password_postgres,
                           driver=driver_postgres,
-                          mode='overwrite')
+                          mode='append')
         print('END adding data to POSTGRES table')
+        logger.info('END (adding data to POSTGRES table)')
 
-    elif row_difference_pg_count > 0 and row_difference_ms_count == 0:
-        print(df_pg_subtract_ms, 'PG')
+
+    elif row_different_in_posgres_count > 0 and row_different_in_mysql_count == 0:
+        # if postgresql table has missed rows in mysql table
+        print('Preparing to insert missed data into MySQL table...')
+        logger.info('Preparing to insert missed data into MySQL table...')
+
         # create sorted by id dataframe of missing rows
-        miss_rows_df_pg = df_pg_subtract_ms.sort(col('id').asc())
-        write_to_db_table(df=miss_rows_df_pg,
+        df_rows_not_in_mysql_from_postgres = df_pg_subtract_mysql.sort(col('id').asc())
+        write_to_db_table(df=df_rows_not_in_mysql_from_postgres,
                           url=jdbc_url_mysql,
                           dbtable=mysql_table,
                           user=user_mysql,
                           password=password_mysql,
                           driver=driver_mysql,
-                          mode='overwrite')
-        print('END adding data to MYSQL table')
+                          mode='append')
+        print('END (adding data to MYSQL table)')
+        logger.info('END (adding data to MYSQL table)')
 
-    else:
+
+    else:   # if postgresql table has missed rows in mysql table
         print('Different rows in both tables... Preparing data...')
-        # create sorted by id dataframe of missing rows in postgres db
-        miss_rows_df_msql = df_ms_subtract_pg.sort(col('id').asc())
-        write_to_db_table(df=miss_rows_df_msql,
+        logger.info('Different rows in both tables... Preparing data...')
+
+        # create sorted by id dataframe of missing rows in postgres
+        df_rows_not_in_postgres_from_mysql = df_mysql_subtract_pg.sort(col('id').asc())
+        write_to_db_table(df=df_rows_not_in_postgres_from_mysql,
                           url=jdbc_url_postgres,
                           dbtable=pg_table,
                           user=user_postgres,
                           password=password_postgres,
                           driver=driver_postgres,
-                          mode='overwrite')
+                          mode='append')
         print('END adding data to POSTGRES table')
+        logger.info('END (adding data to POSTGRES table)')
 
-        # create sorted by id dataframe of missing rows in mysql db
-        miss_rows_df_pg = df_pg_subtract_ms.sort(col('id').asc())
-        write_to_db_table(df=miss_rows_df_pg,
+        # create sorted by id dataframe of missing rows in mysql
+        df_rows_not_in_mysql_from_postgres = df_pg_subtract_mysql.sort(col('id').asc())
+        write_to_db_table(df=df_rows_not_in_mysql_from_postgres,
                           url=jdbc_url_mysql,
                           dbtable=mysql_table,
                           user=user_mysql,
                           password=password_mysql,
                           driver=driver_mysql,
-                          mode='overwrite')
-        print('END adding data to MYSQL table')
+                          mode='append')
+        print('END (adding data to MYSQL table)')
+        logger.info('END (adding data to MYSQL table)')
+
         print('SUCCESS!!!')
+
 
 mysql_table1 = 'codes_ms'
 pg_table1 = 'codes_pg'
