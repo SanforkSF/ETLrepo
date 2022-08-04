@@ -43,7 +43,7 @@ driver_postgres = 'org.postgresql.Driver'
 ## WRITE DATA TO POSTGRESQL DB TABLE
 
 write_to_db_table(df=df, url=jdbc_url_postgres, dbtable='YOUR_TABLE_NAME', user=user_postgres, password=password_postgres,
-                  driver='org.postgresql.Driver')
+                  driver='org.postgresql.Driver', mode="append")
 ```
 
 Or if you want to read (create pyspark dataframe from db table and show it):
@@ -51,6 +51,17 @@ Or if you want to read (create pyspark dataframe from db table and show it):
 ## READ data from postgres db
 
 rdf_pg = read_df_from_table(url=jdbc_url_postgres, dbtable='YOUR_TABLE_NAME', user=user_postgres, password=password_postgres,
-                            driver=driver_postgres)
+                            driver=driver_postgres, mode="append")
 rdf_pg.show()
 ```
+
+6. Sync tables of your postgresql and mysql databases. This function compares two tables and adds missing rows of one into another
+or says that they are identical.
+
+```
+mysql_table1 = 'YOUR_MYSQL_TABLE_NAME'
+pg_table1 = 'YOUR_POSTGRES_TABLE_NAME'
+
+check_sync(mysql_table=mysql_table1, pg_table=pg_table1)
+```
+
