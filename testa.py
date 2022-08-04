@@ -1,6 +1,7 @@
 import sys
 
 import findspark
+import json
 
 findspark.find()
 findspark.init()
@@ -21,6 +22,75 @@ logging.basicConfig(filename='logs.txt',
                     datefmt='%H:%M:%S',
                     level=logging.INFO)
 logger = logging.getLogger('etl_logger')
+
+import boto3
+import base64
+from botocore.exceptions import ClientError
+
+
+def get_secret(secret_name: str, region_name: str, aws_access_key_id: str, aws_secret_access_key: str) -> dict:
+    """
+    This function creates boto3 session and gets secret variables json from AWS secrets manager. Returns dictionary.
+    """
+
+    # Create a Secrets Manager client
+    session = boto3.session.Session(aws_access_key_id=aws_access_key_id,
+                                    aws_secret_access_key=aws_secret_access_key)
+    client = session.client(
+        service_name='secretsmanager',
+        region_name=region_name
+    )
+
+    # In this sample we only handle the specific exceptions for the 'GetSecretValue' API.
+    # See https://docs.aws.amazon.com/secretsmanager/latest/apireference/API_GetSecretValue.html
+    # We rethrow the exception by default.
+
+    try:
+        get_secret_value_response = client.get_secret_value(
+            SecretId=secret_name
+        )
+    except ClientError as e:
+        if e.response['Error']['Code'] == 'DecryptionFailureException':
+            # Secrets Manager can't decrypt the protected secret text using the provided KMS key.
+            # Deal with the exception here, and/or rethrow at your discretion.
+            raise e
+        elif e.response['Error']['Code'] == 'InternalServiceErrorException':
+            # An error occurred on the server side.
+            # Deal with the exception here, and/or rethrow at your discretion.
+            raise e
+        elif e.response['Error']['Code'] == 'InvalidParameterException':
+            # You provided an invalid value for a parameter.
+            # Deal with the exception here, and/or rethrow at your discretion.
+            raise e
+        elif e.response['Error']['Code'] == 'InvalidRequestException':
+            # You provided a parameter value that is not valid for the current state of the resource.
+            # Deal with the exception here, and/or rethrow at your discretion.
+            raise e
+        elif e.response['Error']['Code'] == 'ResourceNotFoundException':
+            # We can't find the resource that you asked for.
+            # Deal with the exception here, and/or rethrow at your discretion.
+            raise e
+    else:
+        # Decrypts secret using the associated KMS key.
+        # Depending on whether the secret is a string or binary, one of these fields will be populated.
+        if 'SecretString' in get_secret_value_response:
+            return json.loads(get_secret_value_response['SecretString'])
+        else:
+            decoded_binary_secret = base64.b64decode(get_secret_value_response['SecretBinary'])
+
+
+aws_access_key_id = os.getenv('AWS_ACCESS_KEY_ID')
+aws_secret_access_key = os.getenv('AWS_SECRET_ACCESS_KEY')
+secret_name_postgres = os.getenv('SECRET_NAME_POSTGRES')
+secret_name_mysql = os.getenv('SECRET_NAME_MYSQL')
+region_name = os.getenv('REGION_NAME')
+
+postgres_secrets = get_secret(secret_name=secret_name_postgres, region_name=region_name,
+                              aws_access_key_id=aws_access_key_id,
+                              aws_secret_access_key=aws_secret_access_key)
+
+mysql_secrets = get_secret(secret_name=secret_name_mysql, region_name=region_name, aws_access_key_id=aws_access_key_id,
+                           aws_secret_access_key=aws_secret_access_key)
 
 
 class SparkSessionClass():
@@ -132,6 +202,7 @@ def read_df_from_table(url: str, dbtable: str, user: str, password: str, driver:
 ### DON'T FORGET TO CHANGE PATHS!!!
 
 # Spark Session Creation
+
 cwd = os.getcwd()
 
 spark_jars = f"{cwd}/jars/mysql-connector-java-8.0.30.jar, " \
@@ -147,15 +218,16 @@ file_path = f'{cwd}/storagefiles/kodyfikator-2.xlsx'
 columns_names_list = ['first_level', 'second_level', 'third_level', 'fourth_level', 'extra_level', 'category',
                       'object_name']
 
-# df = create_pyspark_df_from_excel(file_path=file_path, columns_names_list=columns_names_list)
-# print('PySpark DF OK.')
+df = create_pyspark_df_from_excel(file_path=file_path, columns_names_list=columns_names_list)
+print('PySpark DF OK.')
+df.show()
 
 ## TO POSTGRESQL
 
-user_postgres = os.getenv('DB_USER_POSTGRES')  # credentials
-password_postgres = os.getenv('DB_PWD_POSTGRES')
-jdbc_url_postgres = os.getenv("JDBC_URL_POSTGRES")
-driver_postgres = 'org.postgresql.Driver'
+user_postgres = postgres_secrets['username']  # credentials
+password_postgres = postgres_secrets['password']
+jdbc_url_postgres = f"jdbc:postgresql://{postgres_secrets['host']}/{postgres_secrets['dbname']}"
+driver_postgres = "org.postgresql.Driver"
 
 ## WRITE DATA TO POSTGRESQL DB TABLE
 
@@ -166,17 +238,17 @@ driver_postgres = 'org.postgresql.Driver'
 
 ## READ data from postgres db
 
-# rdf_pg = read_df_from_table(url=jdbc_url_postgres, dbtable='codes_one', user=user_postgres, password=password_postgres,
-#                             driver=driver_postgres)
-# rdf_pg.show()
-
+rdf_pg = read_df_from_table(url=jdbc_url_postgres, dbtable='codes_one', user=user_postgres, password=password_postgres,
+                            driver=driver_postgres)
+rdf_pg.show()
 
 ### TO MYSQL
 
-user_mysql = os.getenv('DB_USER_MYSQL')
-password_mysql = os.getenv('DB_PWD_MYSQL')
-jdbc_url_mysql = os.getenv('JDBC_URL_MYSQL')
+user_mysql = mysql_secrets['username']  # credentials
+password_mysql = mysql_secrets['password']
+jdbc_url_mysql = f"jdbc:mysql://{mysql_secrets['host']}:3306/{mysql_secrets['dbname']}"
 driver_mysql = 'com.mysql.cj.jdbc.Driver'
+
 
 ## WRITE DATA TO MYSQL DB TABLE
 
@@ -187,12 +259,12 @@ driver_mysql = 'com.mysql.cj.jdbc.Driver'
 
 ### READ data from mysql table
 
-# rdf_mysql = read_df_from_table(url=jdbc_url_mysql, dbtable='codes_two', user=user_mysql, password=password_mysql,
+# rdf_mysql = read_df_from_table(url=jdbc_url_mysql, dbtable='codes_ms', user=user_mysql, password=password_mysql,
 #                                driver=driver_mysql)
 #
-
+#
 # rdf_mysql.show()
-
+#
 # df.show()
 
 
@@ -236,7 +308,6 @@ def check_sync(mysql_table: str, pg_table: str):
         print("Data rows are identical")
         logger.info('Data rows are identical!')
 
-
     elif row_different_in_mysql_count > 0 and row_different_in_posgres_count == 0:
         # if mysql table has missed rows in postgresql table
         print('Preparing to insert missed data into Postgres table...')
@@ -253,7 +324,6 @@ def check_sync(mysql_table: str, pg_table: str):
                           mode='append')
         print('END adding data to POSTGRES table')
         logger.info('END (adding data to POSTGRES table)')
-
 
     elif row_different_in_posgres_count > 0 and row_different_in_mysql_count == 0:
         # if postgresql table has missed rows in mysql table
@@ -272,8 +342,7 @@ def check_sync(mysql_table: str, pg_table: str):
         print('END (adding data to MYSQL table)')
         logger.info('END (adding data to MYSQL table)')
 
-
-    else:   # if postgresql table has missed rows in mysql table
+    else:  # if postgresql table has missed rows in mysql table
         print('Different rows in both tables... Preparing data...')
         logger.info('Different rows in both tables... Preparing data...')
 
