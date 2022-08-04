@@ -1,0 +1,6 @@
+10:58:38,803 etl_logger INFO PySpark Session Created!
+10:58:44,368 etl_logger INFO Schema check OK.
+10:58:54,985 etl_logger INFO Data rows are identical!
+11:24:23,218 etl_logger INFO PySpark Session Created!
+11:24:28,563 etl_logger INFO Schema check OK.
+11:24:39,295 etl_logger INFO Data rows are identical!

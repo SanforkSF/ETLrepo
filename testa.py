@@ -132,17 +132,17 @@ def read_df_from_table(url: str, dbtable: str, user: str, password: str, driver:
 ### DON'T FORGET TO CHANGE PATHS!!!
 
 # Spark Session Creation
+cwd = os.getcwd()
 
-spark_jars = r"C:\minidisc\MyProjects\practice1\jars\mysql-connector-java-8.0.30.jar, " \
-             r"C:\minidisc\MyProjects\practice1\jars\postgresql-42.4.0.jar, " \
-             r"C:\minidisc\MyProjects\practice1\jars\spark-excel_2.12-3.2.1_0.17.1.jar"
+spark_jars = f"{cwd}/jars/mysql-connector-java-8.0.30.jar, " \
+             f"{cwd}/jars/postgresql-42.4.0.jar"
 
 spark = SparkSessionClass().create_spark_session(app_name='PysparkApp', spark_jars=spark_jars)
 print('Session Created!')
 logger.info('PySpark Session Created!')
 # Dataframe (df) creation
 
-file_path = 'C:\minidisc\MyProjects\practice1\storagefiles\kodyfikator-2.xlsx'
+file_path = f'{cwd}/storagefiles/kodyfikator-2.xlsx'
 
 columns_names_list = ['first_level', 'second_level', 'third_level', 'fourth_level', 'extra_level', 'category',
                       'object_name']
