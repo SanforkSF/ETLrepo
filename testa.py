@@ -238,9 +238,9 @@ driver_postgres = "org.postgresql.Driver"
 
 ## READ data from postgres db
 
-rdf_pg = read_df_from_table(url=jdbc_url_postgres, dbtable='codes_one', user=user_postgres, password=password_postgres,
-                            driver=driver_postgres)
-rdf_pg.show()
+# rdf_pg = read_df_from_table(url=jdbc_url_postgres, dbtable='codes_one', user=user_postgres, password=password_postgres,
+#                             driver=driver_postgres)
+# rdf_pg.show()
 
 ### TO MYSQL
 
