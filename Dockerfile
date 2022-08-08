@@ -13,7 +13,7 @@ RUN apt-get update && apt-get install curl -y && apt-get install -y gnupg2 && ap
     apt-get install unixodbc-dev -y  && \
 # Set up virtual env
     pip3 install virtualenv && \
-    virtualenv -p python3.8 /opt/codificator-etl/venv/
+    virtualenv -p python3.8 /opt/codificator-etl/
 
 
 WORKDIR /opt/codificator-etl/
@@ -21,15 +21,15 @@ WORKDIR /opt/codificator-etl/
 # Copy and install packages
 COPY . .
 # activate virtualenv and install fwg-codificator-etl and all dependencies
-RUN . venv/bin/activate && pip install -r requirements.txt
+RUN . bin/activate && pip install -r requirements.txt
 
 
 FROM python:3.8-slim-buster AS runtime-image
 
+WORKDIR /
+
 # Copy files 
 COPY --from=compile-image /opt/codificator-etl /opt/codificator-etl
-COPY ./entrypoint.sh /opt/codificator-etl/entrypoint.sh
-COPY . /opt/codificator-etl
 
 # Update Ubuntu
 RUN apt-get update && \
@@ -50,7 +50,7 @@ RUN apt-get update && \
 # Clean system
     apt-get clean && rm -rf /var/lib/apt/lists/*  && \
 # Set entry point & execution rights
-    chmod +x /opt/codificator-etl/entrypoint.sh
-
+    chmod +x /opt/codificator-etl/entrypoint.sh && \
+    . /opt/codificator-etl/bin/activate
 
 ENTRYPOINT ["/opt/codificator-etl/entrypoint.sh"]
