@@ -63,5 +63,6 @@ mysql_table1 = 'YOUR_MYSQL_TABLE_NAME'
 pg_table1 = 'YOUR_POSTGRES_TABLE_NAME'
 
 check_sync(mysql_table=mysql_table1, pg_table=pg_table1)
+
 ```
 
