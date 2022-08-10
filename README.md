@@ -1,25 +1,27 @@
 # ETLrepo
 
-Repository for reading and writing data from excel files to databases with PySpark.
+Repository for reading and writing data from excel files to AWS RDS databases with PySpark.
+(for Ubuntu using AWS RDS Databases, AWS Secrets Manager, Docker)
 
 Installation:
 
-1. Set and activate virtual enviroment;
+1. You will need to create or take existing credentials for your databases from AWS Secrets Manager;
 
-2. Install requirements:
-```pip install -r requirements.txt```
-
-3. Create file .env with parameters like in 'dotenvexample' file;
+You will need with parameters like these in future. You can find example in 'dotenvexample' file;
 ```
-DB_USER_POSTGRES = 'username'
-DB_PWD_POSTGRES = 'password'
-JDBC_URL_POSTGRES = 'jdbc:{mysql/postgresql}://{HOST}/{DATABASE}'
+AWS_ACCESS_KEY_ID = 'AWS_ACCESS_KEY_ID'
 
-DB_USER_MYSQL = 'username'
-DB_PWD_MYSQL = 'password'
-JDBC_URL_MYSQL = 'jdbc:{mysql/postgresql}://{HOST}/{DATABASE}'
+AWS_SECRET_ACCESS_KEY = 'AWS_SECRET_ACCESS_KEY'
+
+SECRET_NAME_POSTGRES = 'SECRET_NAME_POSTGRES'
+
+SECRET_NAME_MYSQL = 'SECRET_NAME_MYSQL'
+
+REGION_NAME = 'REGION_NAME'
 ```
-4. Insert your spark jars, excel file path, columns names list for creation SparkSession and pyspark dataframe.
+2. Open 'testa.py' file and edit variables.
+
+3. Insert your spark jars, excel file path, columns names list for creation SparkSession and pyspark dataframe.
 
 example:
 
@@ -32,7 +34,7 @@ columns_names_list = ['first_level', 'second_level', 'third_level', 'fourth_leve
 df = create_pyspark_df_from_excel(file_path=file_path, columns_names_list=columns_names_list)
 ```
 
-5. Choose what you need to do. For example if you have to write dataframe to postgresql database table:
+4. Choose what you need to do. For example if you have to write dataframe to postgresql database table:
 
 ```   
 user_postgres = os.getenv('DB_USER_POSTGRES')  # credentials
@@ -55,7 +57,7 @@ rdf_pg = read_df_from_table(url=jdbc_url_postgres, dbtable='YOUR_TABLE_NAME', us
 rdf_pg.show()
 ```
 
-6. Sync tables of your postgresql and mysql databases. This function compares two tables and adds missing rows of one into another
+5. Sync tables of your postgresql and mysql databases. This function compares two tables and adds missing rows of one into another
 or says that they are identical.
 
 ```
@@ -64,5 +66,26 @@ pg_table1 = 'YOUR_POSTGRES_TABLE_NAME'
 
 check_sync(mysql_table=mysql_table1, pg_table=pg_table1)
 
+```
+
+6. Build your Docker image.
+
+Move to your ETLrepo folder:
+
+```
+cd ETLrepo
+```
+Then start image build (you can choose any image name for example 'etl-test')
+
+```
+docker build -t {YOUR_IMAGE_NAME} .
+```
+7. Run your Docker container
+```
+docker run -e AWS_ACCESS_KEY_ID='your_aws_access_key_id' \
+-e AWS_SECRET_ACCESS_KEY='your_aws_secret_access_key' \
+-e SECRET_NAME_POSTGRES='your_secret_name_postgres' \
+-e SECRET_NAME_MYSQL='your_secret_name_mysql' \
+-e REGION_NAME='aws_region_name' {YOUR_IMAGE_NAME}
 ```
 
