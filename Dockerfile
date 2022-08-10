@@ -12,8 +12,8 @@ RUN apt-get update && apt-get install curl -y && apt-get install -y gnupg2 && ap
 # Install MS ODBC Driver
     apt-get install unixodbc-dev -y  && \
 # Set up virtual env
-    pip3 install virtualenv && \
-    virtualenv -p python3.8 /opt/codificator-etl/
+    apt-get install -y virtualenv && \
+    python3 -m venv /opt/codificator-etl/
 
 
 WORKDIR /opt/codificator-etl/

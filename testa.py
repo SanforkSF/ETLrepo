@@ -220,7 +220,6 @@ columns_names_list = ['first_level', 'second_level', 'third_level', 'fourth_leve
 
 df = create_pyspark_df_from_excel(file_path=file_path, columns_names_list=columns_names_list)
 print('PySpark DF OK.')
-df.show()
 
 ## TO POSTGRESQL
 
