@@ -5,7 +5,7 @@ Repository for reading and writing data from excel files to AWS RDS databases wi
 
 Installation:
 
-1. You will need to create or take existing credentials for your databases from AWS Secrets Manager;
+1. Clone this repository. You will need to create or take existing credentials for your databases from AWS Secrets Manager;
 
 You will need with parameters like these in future. You can find example in 'dotenvexample' file;
 ```
