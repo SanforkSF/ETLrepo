@@ -378,36 +378,45 @@ pg_table1 = 'codes_pg'
 
 # check_sync(mysql_table=mysql_table1, pg_table=pg_table1)
 
-## Postgres data to parquet
+## DATA FROM POSTGRESQL TO REDSHIFT DB
 
 import redshift_connector
+
+## UNCOMMENT TO read data from postgres and create pandas dataframe
 
 # rdf_pg = read_df_from_table(url=jdbc_url_postgres, dbtable='codes_one', user=user_postgres, password=password_postgres,
 #                             driver=driver_postgres)
 # pd_rdf = rdf_pg.toPandas()
 
-redshift_secrets = get_secret(secret_name="redshift-testa-secret", region_name=region_name,
+## REDSHIFT SECRETS MANAGEMENT
+
+secret_name_redshift = os.getenv('SECRET_NAME_REDSHIFT')
+
+redshift_secrets = get_secret(secret_name=secret_name_redshift, region_name=region_name,
                               aws_access_key_id=aws_access_key_id,
                               aws_secret_access_key=aws_secret_access_key)
-
-print(redshift_secrets)
-print(redshift_secrets['username'])
+## Creating boto3 session
 session = boto3.session.Session(aws_access_key_id=aws_access_key_id,
                                 aws_secret_access_key=aws_secret_access_key,
                                 region_name=os.getenv('REGION_NAME'))
+s3_bucket1 = os.getenv('S3_BUCKET1')
+
+## Converting pandas dataframe with data from postgres to parquet file to s3
 
 # wr.s3.to_parquet(
 #     df=pd_rdf,
-#     path='s3://redbucket337/pgpandas.parquet',
+#     path=f's3://{s3_bucket1}/pgpandas.parquet',
 # )
 
-s3_parquet_path = 's3://redbucket337/pgpandas.parquet'
+s3_parquet_path = f"s3://{s3_bucket1}/pgpandas.parquet"
 
 df_parq = wr.s3.read_parquet(path=s3_parquet_path)
-# print(df_parq)
 
-service_role = 'arn:aws:iam::081793785751:role/aws-service-role/redshift.amazonaws.com/AWSServiceRoleForRedshift'
+## CHOOSE ONE TYPE OF CONNECTION
+
 print('connection creation....')
+
+## First way with credential type connection
 
 # conn = redshift_connector.connect(
 #     host=redshift_secrets['host'],
@@ -415,14 +424,14 @@ print('connection creation....')
 #     user=redshift_secrets['username'],
 #     password=redshift_secrets['password'])
 
-conn = wr.redshift.connect("test1", boto3_session=session,)
-print('we good')
-# conn.commit()
+## Second way with Glue Connection
+conn = wr.redshift.connect(connection=os.getenv('GLUE_CONNECTION'), boto3_session=session, )
 
+print('connected.')
 
-wr.redshift.copy(df=df_parq, path='s3://redbucket337/nova1.parquet', con=conn, table='pusher3', schema="public",
+## Using .copy method from aws wrangler to insert data from s3 to redshift db table (change table name if you wish)
+
+wr.redshift.copy(df=df_parq, path=f's3://{s3_bucket1}/nova1.parquet', con=conn, table='pusher3', schema="public",
                  primary_keys=['id'], mode='overwrite')
-print('copied ????')
+print('done')
 conn.close()
-
-
