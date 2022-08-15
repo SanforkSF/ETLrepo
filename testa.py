@@ -11,6 +11,7 @@ import pandas as pd
 from dotenv import load_dotenv
 from pyspark.sql.functions import col
 import logging
+import awswrangler as wr
 
 # Take variables from .env file
 load_dotenv()
@@ -218,8 +219,8 @@ file_path = f'{cwd}/storagefiles/kodyfikator-2.xlsx'
 columns_names_list = ['first_level', 'second_level', 'third_level', 'fourth_level', 'extra_level', 'category',
                       'object_name']
 
-df = create_pyspark_df_from_excel(file_path=file_path, columns_names_list=columns_names_list)
-print('PySpark DF OK.')
+# df = create_pyspark_df_from_excel(file_path=file_path, columns_names_list=columns_names_list)
+# print('PySpark DF OK.')
 
 ## TO POSTGRESQL
 
@@ -375,4 +376,53 @@ def check_sync(mysql_table: str, pg_table: str):
 mysql_table1 = 'codes_ms'
 pg_table1 = 'codes_pg'
 
-check_sync(mysql_table=mysql_table1, pg_table=pg_table1)
+# check_sync(mysql_table=mysql_table1, pg_table=pg_table1)
+
+## Postgres data to parquet
+
+import redshift_connector
+
+# rdf_pg = read_df_from_table(url=jdbc_url_postgres, dbtable='codes_one', user=user_postgres, password=password_postgres,
+#                             driver=driver_postgres)
+# pd_rdf = rdf_pg.toPandas()
+
+redshift_secrets = get_secret(secret_name="redshift-testa-secret", region_name=region_name,
+                              aws_access_key_id=aws_access_key_id,
+                              aws_secret_access_key=aws_secret_access_key)
+
+print(redshift_secrets)
+print(redshift_secrets['username'])
+session = boto3.session.Session(aws_access_key_id=aws_access_key_id,
+                                aws_secret_access_key=aws_secret_access_key,
+                                region_name=os.getenv('REGION_NAME'))
+
+# wr.s3.to_parquet(
+#     df=pd_rdf,
+#     path='s3://redbucket337/pgpandas.parquet',
+# )
+
+s3_parquet_path = 's3://redbucket337/pgpandas.parquet'
+
+df_parq = wr.s3.read_parquet(path=s3_parquet_path)
+# print(df_parq)
+
+service_role = 'arn:aws:iam::081793785751:role/aws-service-role/redshift.amazonaws.com/AWSServiceRoleForRedshift'
+print('connection creation....')
+
+# conn = redshift_connector.connect(
+#     host=redshift_secrets['host'],
+#     database='read-dead',
+#     user=redshift_secrets['username'],
+#     password=redshift_secrets['password'])
+
+conn = wr.redshift.connect("test1", boto3_session=session,)
+print('we good')
+# conn.commit()
+
+
+wr.redshift.copy(df=df_parq, path='s3://redbucket337/nova1.parquet', con=conn, table='pusher3', schema="public",
+                 primary_keys=['id'], mode='overwrite')
+print('copied ????')
+conn.close()
+
+
