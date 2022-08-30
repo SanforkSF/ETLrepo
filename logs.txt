@@ -1,353 +1,125 @@
-10:58:38,803 etl_logger INFO PySpark Session Created!
-10:58:44,368 etl_logger INFO Schema check OK.
-10:58:54,985 etl_logger INFO Data rows are identical!
-11:24:23,218 etl_logger INFO PySpark Session Created!
-11:24:28,563 etl_logger INFO Schema check OK.
-11:24:39,295 etl_logger INFO Data rows are identical!
-09:38:16,626 etl_logger INFO PySpark Session Created!
-09:38:33,259 etl_logger INFO Schema check OK.
-09:38:40,235 etl_logger INFO Data rows are identical!
-09:48:29,218 etl_logger INFO PySpark Session Created!
-09:48:44,877 etl_logger INFO Schema check OK.
-09:48:51,964 etl_logger INFO Data rows are identical!
-15:02:16,789 etl_logger INFO PySpark Session Created!
-15:02:50,547 etl_logger INFO Schema check OK.
-15:03:12,204 etl_logger INFO Data rows are identical!
-11:45:48,655 etl_logger INFO PySpark Session Created!
-11:46:03,208 etl_logger INFO Schema check OK.
-11:46:14,47 etl_logger INFO Data rows are identical!
-11:46:14,68 py4j.clientserver INFO Closing down clientserver connection
-14:22:58,676 etl_logger INFO PySpark Session Created!
-14:23:06,469 etl_logger INFO Schema check OK.
-14:23:22,135 etl_logger INFO Data rows are identical!
-14:23:22,155 py4j.clientserver INFO Closing down clientserver connection
-14:57:59,141 etl_logger INFO PySpark Session Created!
-14:58:15,784 py4j.clientserver INFO Error while receiving.
-Traceback (most recent call last):
-  File "C:\Spark\spark-3.3.0-bin-hadoop2\python\lib\py4j-0.10.9.5-src.zip\py4j\clientserver.py", line 511, in send_command
-    answer = smart_decode(self.stream.readline()[:-1])
-RuntimeError: reentrant call inside <_io.BufferedReader name=1716>
-14:58:15,786 py4j.clientserver INFO Closing down clientserver connection
-14:58:15,786 root ERROR Exception while sending command.
-Traceback (most recent call last):
-  File "C:\Spark\spark-3.3.0-bin-hadoop2\python\lib\py4j-0.10.9.5-src.zip\py4j\clientserver.py", line 511, in send_command
-    answer = smart_decode(self.stream.readline()[:-1])
-RuntimeError: reentrant call inside <_io.BufferedReader name=1716>
-
-During handling of the above exception, another exception occurred:
-
-Traceback (most recent call last):
-  File "C:\Spark\spark-3.3.0-bin-hadoop2\python\lib\py4j-0.10.9.5-src.zip\py4j\java_gateway.py", line 1038, in send_command
-    response = connection.send_command(command)
-  File "C:\Spark\spark-3.3.0-bin-hadoop2\python\lib\py4j-0.10.9.5-src.zip\py4j\clientserver.py", line 539, in send_command
-    raise Py4JNetworkError(
-py4j.protocol.Py4JNetworkError: Error while sending or receiving
-14:58:15,789 py4j.clientserver INFO Error while receiving.
-Traceback (most recent call last):
-  File "C:\Spark\spark-3.3.0-bin-hadoop2\python\lib\py4j-0.10.9.5-src.zip\py4j\clientserver.py", line 511, in send_command
-    answer = smart_decode(self.stream.readline()[:-1])
-  File "C:\Users\Oleksandr Forkun\AppData\Local\Programs\Python\Python39\lib\socket.py", line 704, in readinto
-    return self._sock.recv_into(b)
-  File "C:\Spark\spark-3.3.0-bin-hadoop2\python\pyspark\context.py", line 362, in signal_handler
-    self.cancelAllJobs()
-  File "C:\Spark\spark-3.3.0-bin-hadoop2\python\pyspark\context.py", line 1447, in cancelAllJobs
-    self._jsc.sc().cancelAllJobs()
-  File "C:\Spark\spark-3.3.0-bin-hadoop2\python\lib\py4j-0.10.9.5-src.zip\py4j\java_gateway.py", line 1321, in __call__
-    return_value = get_return_value(
-  File "C:\Spark\spark-3.3.0-bin-hadoop2\python\pyspark\sql\utils.py", line 190, in deco
-    return f(*a, **kw)
-  File "C:\Spark\spark-3.3.0-bin-hadoop2\python\lib\py4j-0.10.9.5-src.zip\py4j\protocol.py", line 334, in get_return_value
-    raise Py4JError(
-py4j.protocol.Py4JError: An error occurred while calling o16.sc
-14:58:15,823 py4j.clientserver INFO Closing down clientserver connection
-14:58:15,823 root ERROR Exception while sending command.
-Traceback (most recent call last):
-  File "C:\Spark\spark-3.3.0-bin-hadoop2\python\lib\py4j-0.10.9.5-src.zip\py4j\clientserver.py", line 511, in send_command
-    answer = smart_decode(self.stream.readline()[:-1])
-  File "C:\Users\Oleksandr Forkun\AppData\Local\Programs\Python\Python39\lib\socket.py", line 704, in readinto
-    return self._sock.recv_into(b)
-  File "C:\Spark\spark-3.3.0-bin-hadoop2\python\pyspark\context.py", line 362, in signal_handler
-    self.cancelAllJobs()
-  File "C:\Spark\spark-3.3.0-bin-hadoop2\python\pyspark\context.py", line 1447, in cancelAllJobs
-    self._jsc.sc().cancelAllJobs()
-  File "C:\Spark\spark-3.3.0-bin-hadoop2\python\lib\py4j-0.10.9.5-src.zip\py4j\java_gateway.py", line 1321, in __call__
-    return_value = get_return_value(
-  File "C:\Spark\spark-3.3.0-bin-hadoop2\python\pyspark\sql\utils.py", line 190, in deco
-    return f(*a, **kw)
-  File "C:\Spark\spark-3.3.0-bin-hadoop2\python\lib\py4j-0.10.9.5-src.zip\py4j\protocol.py", line 334, in get_return_value
-    raise Py4JError(
-py4j.protocol.Py4JError: An error occurred while calling o16.sc
-
-During handling of the above exception, another exception occurred:
-
-Traceback (most recent call last):
-  File "C:\Spark\spark-3.3.0-bin-hadoop2\python\lib\py4j-0.10.9.5-src.zip\py4j\java_gateway.py", line 1038, in send_command
-    response = connection.send_command(command)
-  File "C:\Spark\spark-3.3.0-bin-hadoop2\python\lib\py4j-0.10.9.5-src.zip\py4j\clientserver.py", line 539, in send_command
-    raise Py4JNetworkError(
-py4j.protocol.Py4JNetworkError: Error while sending or receiving
-14:58:15,824 py4j.clientserver INFO Closing down clientserver connection
-14:58:15,856 py4j.clientserver INFO Closing down clientserver connection
-15:42:14,484 etl_logger INFO PySpark Session Created!
-15:42:27,664 py4j.clientserver INFO Closing down clientserver connection
-15:44:37,903 etl_logger INFO PySpark Session Created!
-15:44:49,900 py4j.clientserver INFO Closing down clientserver connection
-16:28:34,551 etl_logger INFO PySpark Session Created!
-16:28:45,318 py4j.clientserver INFO Closing down clientserver connection
-17:00:04,425 etl_logger INFO PySpark Session Created!
-17:00:11,942 py4j.clientserver INFO Closing down clientserver connection
-17:01:24,538 etl_logger INFO PySpark Session Created!
-17:01:32,45 py4j.clientserver INFO Closing down clientserver connection
-09:40:12,398 etl_logger INFO PySpark Session Created!
-09:40:21,47 botocore.credentials INFO Found credentials in environment variables.
-09:40:24,454 py4j.clientserver INFO Closing down clientserver connection
-09:43:36,514 etl_logger INFO PySpark Session Created!
-09:44:13,747 etl_logger INFO PySpark Session Created!
-09:49:17,803 etl_logger INFO PySpark Session Created!
-09:49:18,830 py4j.clientserver INFO Error while sending or receiving.
-Traceback (most recent call last):
-  File "C:\Users\Oleksandr Forkun\AppData\Local\Programs\Python\Python39\lib\socket.py", line 704, in readinto
-    return self._sock.recv_into(b)
-ConnectionResetError: [WinError 10054] An existing connection was forcibly closed by the remote host
-
-During handling of the above exception, another exception occurred:
-
-Traceback (most recent call last):
-  File "C:\Spark\spark-3.3.0-bin-hadoop2\python\lib\py4j-0.10.9.5-src.zip\py4j\clientserver.py", line 503, in send_command
-    self.socket.sendall(command.encode("utf-8"))
-ConnectionResetError: [WinError 10054] An existing connection was forcibly closed by the remote host
-09:49:18,830 py4j.clientserver INFO Error while receiving.
-Traceback (most recent call last):
-  File "C:\Spark\spark-3.3.0-bin-hadoop2\python\lib\py4j-0.10.9.5-src.zip\py4j\clientserver.py", line 511, in send_command
-    answer = smart_decode(self.stream.readline()[:-1])
-  File "C:\Users\Oleksandr Forkun\AppData\Local\Programs\Python\Python39\lib\socket.py", line 704, in readinto
-    return self._sock.recv_into(b)
-ConnectionResetError: [WinError 10054] An existing connection was forcibly closed by the remote host
-09:49:18,832 py4j.clientserver INFO Closing down clientserver connection
-09:49:18,833 py4j.clientserver INFO Closing down clientserver connection
-09:49:18,833 root INFO Exception while sending command.
-Traceback (most recent call last):
-  File "C:\Users\Oleksandr Forkun\AppData\Local\Programs\Python\Python39\lib\socket.py", line 704, in readinto
-    return self._sock.recv_into(b)
-ConnectionResetError: [WinError 10054] An existing connection was forcibly closed by the remote host
-
-During handling of the above exception, another exception occurred:
-
-Traceback (most recent call last):
-  File "C:\Spark\spark-3.3.0-bin-hadoop2\python\lib\py4j-0.10.9.5-src.zip\py4j\clientserver.py", line 503, in send_command
-    self.socket.sendall(command.encode("utf-8"))
-ConnectionResetError: [WinError 10054] An existing connection was forcibly closed by the remote host
-
-During handling of the above exception, another exception occurred:
-
-Traceback (most recent call last):
-  File "C:\Spark\spark-3.3.0-bin-hadoop2\python\lib\py4j-0.10.9.5-src.zip\py4j\java_gateway.py", line 1038, in send_command
-    response = connection.send_command(command)
-  File "C:\Spark\spark-3.3.0-bin-hadoop2\python\lib\py4j-0.10.9.5-src.zip\py4j\clientserver.py", line 506, in send_command
-    raise Py4JNetworkError(
-py4j.protocol.Py4JNetworkError: Error while sending
-09:49:18,834 root ERROR Exception while sending command.
-Traceback (most recent call last):
-  File "C:\Spark\spark-3.3.0-bin-hadoop2\python\lib\py4j-0.10.9.5-src.zip\py4j\clientserver.py", line 511, in send_command
-    answer = smart_decode(self.stream.readline()[:-1])
-  File "C:\Users\Oleksandr Forkun\AppData\Local\Programs\Python\Python39\lib\socket.py", line 704, in readinto
-    return self._sock.recv_into(b)
-ConnectionResetError: [WinError 10054] An existing connection was forcibly closed by the remote host
-
-During handling of the above exception, another exception occurred:
-
-Traceback (most recent call last):
-  File "C:\Spark\spark-3.3.0-bin-hadoop2\python\lib\py4j-0.10.9.5-src.zip\py4j\java_gateway.py", line 1038, in send_command
-    response = connection.send_command(command)
-  File "C:\Spark\spark-3.3.0-bin-hadoop2\python\lib\py4j-0.10.9.5-src.zip\py4j\clientserver.py", line 539, in send_command
-    raise Py4JNetworkError(
-py4j.protocol.Py4JNetworkError: Error while sending or receiving
-09:49:18,836 py4j.clientserver INFO Closing down clientserver connection
-09:49:20,874 py4j.clientserver INFO Closing down clientserver connection
-09:49:20,874 py4j.clientserver INFO Closing down clientserver connection
-09:49:20,875 py4j.clientserver INFO Closing down clientserver connection
-09:49:20,875 py4j.clientserver INFO Error while receiving.
-Traceback (most recent call last):
-  File "C:\Users\Oleksandr Forkun\AppData\Local\Programs\Python\Python39\lib\socket.py", line 704, in readinto
-    return self._sock.recv_into(b)
-ConnectionResetError: [WinError 10054] An existing connection was forcibly closed by the remote host
-
-During handling of the above exception, another exception occurred:
-
-Traceback (most recent call last):
-  File "C:\Spark\spark-3.3.0-bin-hadoop2\python\lib\py4j-0.10.9.5-src.zip\py4j\clientserver.py", line 503, in send_command
-    self.socket.sendall(command.encode("utf-8"))
-ConnectionResetError: [WinError 10054] An existing connection was forcibly closed by the remote host
-
-During handling of the above exception, another exception occurred:
-
-Traceback (most recent call last):
-  File "C:\Spark\spark-3.3.0-bin-hadoop2\python\lib\py4j-0.10.9.5-src.zip\py4j\java_gateway.py", line 1038, in send_command
-    response = connection.send_command(command)
-  File "C:\Spark\spark-3.3.0-bin-hadoop2\python\lib\py4j-0.10.9.5-src.zip\py4j\clientserver.py", line 506, in send_command
-    raise Py4JNetworkError(
-py4j.protocol.Py4JNetworkError: Error while sending
-
-During handling of the above exception, another exception occurred:
-
-Traceback (most recent call last):
-  File "C:\Spark\spark-3.3.0-bin-hadoop2\python\lib\py4j-0.10.9.5-src.zip\py4j\clientserver.py", line 511, in send_command
-    answer = smart_decode(self.stream.readline()[:-1])
-  File "C:\Users\Oleksandr Forkun\AppData\Local\Programs\Python\Python39\lib\socket.py", line 704, in readinto
-    return self._sock.recv_into(b)
-  File "C:\Spark\spark-3.3.0-bin-hadoop2\python\pyspark\context.py", line 362, in signal_handler
-    self.cancelAllJobs()
-  File "C:\Spark\spark-3.3.0-bin-hadoop2\python\pyspark\context.py", line 1447, in cancelAllJobs
-    self._jsc.sc().cancelAllJobs()
-  File "C:\Spark\spark-3.3.0-bin-hadoop2\python\lib\py4j-0.10.9.5-src.zip\py4j\java_gateway.py", line 1320, in __call__
-    answer = self.gateway_client.send_command(command)
-  File "C:\Spark\spark-3.3.0-bin-hadoop2\python\lib\py4j-0.10.9.5-src.zip\py4j\java_gateway.py", line 1053, in send_command
-    response = self.send_command(command, binary=binary)
-  File "C:\Spark\spark-3.3.0-bin-hadoop2\python\lib\py4j-0.10.9.5-src.zip\py4j\java_gateway.py", line 1036, in send_command
-    connection = self._get_connection()
-  File "C:\Spark\spark-3.3.0-bin-hadoop2\python\lib\py4j-0.10.9.5-src.zip\py4j\clientserver.py", line 284, in _get_connection
-    connection = self._create_new_connection()
-  File "C:\Spark\spark-3.3.0-bin-hadoop2\python\lib\py4j-0.10.9.5-src.zip\py4j\clientserver.py", line 291, in _create_new_connection
-    connection.connect_to_java_server()
-  File "C:\Spark\spark-3.3.0-bin-hadoop2\python\lib\py4j-0.10.9.5-src.zip\py4j\clientserver.py", line 438, in connect_to_java_server
-    self.socket.connect((self.java_address, self.java_port))
-ConnectionRefusedError: [WinError 10061] No connection could be made because the target machine actively refused it
-09:49:20,876 py4j.clientserver INFO Closing down clientserver connection
-09:49:20,876 root ERROR Exception while sending command.
-Traceback (most recent call last):
-  File "C:\Users\Oleksandr Forkun\AppData\Local\Programs\Python\Python39\lib\socket.py", line 704, in readinto
-    return self._sock.recv_into(b)
-ConnectionResetError: [WinError 10054] An existing connection was forcibly closed by the remote host
-
-During handling of the above exception, another exception occurred:
-
-Traceback (most recent call last):
-  File "C:\Spark\spark-3.3.0-bin-hadoop2\python\lib\py4j-0.10.9.5-src.zip\py4j\clientserver.py", line 503, in send_command
-    self.socket.sendall(command.encode("utf-8"))
-ConnectionResetError: [WinError 10054] An existing connection was forcibly closed by the remote host
-
-During handling of the above exception, another exception occurred:
-
-Traceback (most recent call last):
-  File "C:\Spark\spark-3.3.0-bin-hadoop2\python\lib\py4j-0.10.9.5-src.zip\py4j\java_gateway.py", line 1038, in send_command
-    response = connection.send_command(command)
-  File "C:\Spark\spark-3.3.0-bin-hadoop2\python\lib\py4j-0.10.9.5-src.zip\py4j\clientserver.py", line 506, in send_command
-    raise Py4JNetworkError(
-py4j.protocol.Py4JNetworkError: Error while sending
-
-During handling of the above exception, another exception occurred:
-
-Traceback (most recent call last):
-  File "C:\Spark\spark-3.3.0-bin-hadoop2\python\lib\py4j-0.10.9.5-src.zip\py4j\clientserver.py", line 511, in send_command
-    answer = smart_decode(self.stream.readline()[:-1])
-  File "C:\Users\Oleksandr Forkun\AppData\Local\Programs\Python\Python39\lib\socket.py", line 704, in readinto
-    return self._sock.recv_into(b)
-  File "C:\Spark\spark-3.3.0-bin-hadoop2\python\pyspark\context.py", line 362, in signal_handler
-    self.cancelAllJobs()
-  File "C:\Spark\spark-3.3.0-bin-hadoop2\python\pyspark\context.py", line 1447, in cancelAllJobs
-    self._jsc.sc().cancelAllJobs()
-  File "C:\Spark\spark-3.3.0-bin-hadoop2\python\lib\py4j-0.10.9.5-src.zip\py4j\java_gateway.py", line 1320, in __call__
-    answer = self.gateway_client.send_command(command)
-  File "C:\Spark\spark-3.3.0-bin-hadoop2\python\lib\py4j-0.10.9.5-src.zip\py4j\java_gateway.py", line 1053, in send_command
-    response = self.send_command(command, binary=binary)
-  File "C:\Spark\spark-3.3.0-bin-hadoop2\python\lib\py4j-0.10.9.5-src.zip\py4j\java_gateway.py", line 1036, in send_command
-    connection = self._get_connection()
-  File "C:\Spark\spark-3.3.0-bin-hadoop2\python\lib\py4j-0.10.9.5-src.zip\py4j\clientserver.py", line 284, in _get_connection
-    connection = self._create_new_connection()
-  File "C:\Spark\spark-3.3.0-bin-hadoop2\python\lib\py4j-0.10.9.5-src.zip\py4j\clientserver.py", line 291, in _create_new_connection
-    connection.connect_to_java_server()
-  File "C:\Spark\spark-3.3.0-bin-hadoop2\python\lib\py4j-0.10.9.5-src.zip\py4j\clientserver.py", line 438, in connect_to_java_server
-    self.socket.connect((self.java_address, self.java_port))
-ConnectionRefusedError: [WinError 10061] No connection could be made because the target machine actively refused it
-
-During handling of the above exception, another exception occurred:
-
-Traceback (most recent call last):
-  File "C:\Spark\spark-3.3.0-bin-hadoop2\python\lib\py4j-0.10.9.5-src.zip\py4j\java_gateway.py", line 1038, in send_command
-    response = connection.send_command(command)
-  File "C:\Spark\spark-3.3.0-bin-hadoop2\python\lib\py4j-0.10.9.5-src.zip\py4j\clientserver.py", line 539, in send_command
-    raise Py4JNetworkError(
-py4j.protocol.Py4JNetworkError: Error while sending or receiving
-09:49:20,877 py4j.clientserver INFO Closing down clientserver connection
-09:49:20,877 py4j.clientserver INFO Closing down clientserver connection
-10:13:18,643 etl_logger INFO PySpark Session Created!
-10:13:31,839 py4j.clientserver INFO Closing down clientserver connection
-10:27:22,467 etl_logger INFO PySpark Session Created!
-10:27:35,613 py4j.clientserver INFO Closing down clientserver connection
-10:29:06,87 etl_logger INFO PySpark Session Created!
-10:29:18,729 botocore.credentials INFO Found credentials in environment variables.
-10:29:20,889 py4j.clientserver INFO Closing down clientserver connection
-10:40:05,979 etl_logger INFO PySpark Session Created!
-10:40:18,289 botocore.credentials INFO Found credentials in environment variables.
-10:40:20,233 botocore.credentials INFO Found credentials in environment variables.
-10:40:23,293 py4j.clientserver INFO Closing down clientserver connection
-10:43:37,305 etl_logger INFO PySpark Session Created!
-10:43:37,708 botocore.credentials INFO Found credentials in environment variables.
-10:43:40,982 py4j.clientserver INFO Closing down clientserver connection
-10:58:43,189 etl_logger INFO PySpark Session Created!
-10:58:43,587 botocore.credentials INFO Found credentials in environment variables.
-10:59:08,337 py4j.clientserver INFO Closing down clientserver connection
-11:00:26,426 etl_logger INFO PySpark Session Created!
-11:00:26,827 botocore.credentials INFO Found credentials in environment variables.
-11:00:51,502 py4j.clientserver INFO Closing down clientserver connection
-11:06:11,812 etl_logger INFO PySpark Session Created!
-11:06:12,190 botocore.credentials INFO Found credentials in environment variables.
-11:06:36,867 py4j.clientserver INFO Closing down clientserver connection
-11:07:06,811 etl_logger INFO PySpark Session Created!
-11:07:07,264 botocore.credentials INFO Found credentials in environment variables.
-11:07:31,927 py4j.clientserver INFO Closing down clientserver connection
-11:10:15,294 etl_logger INFO PySpark Session Created!
-11:10:15,710 botocore.credentials INFO Found credentials in environment variables.
-11:10:40,420 py4j.clientserver INFO Closing down clientserver connection
-11:12:39,48 etl_logger INFO PySpark Session Created!
-11:12:39,455 botocore.credentials INFO Found credentials in environment variables.
-11:12:43,109 py4j.clientserver INFO Closing down clientserver connection
-11:21:49,71 etl_logger INFO PySpark Session Created!
-11:21:49,473 botocore.credentials INFO Found credentials in environment variables.
-11:22:14,558 py4j.clientserver INFO Closing down clientserver connection
-11:39:17,49 etl_logger INFO PySpark Session Created!
-11:39:17,485 botocore.credentials INFO Found credentials in environment variables.
-11:39:42,292 py4j.clientserver INFO Closing down clientserver connection
-11:49:08,340 etl_logger INFO PySpark Session Created!
-11:49:08,744 botocore.credentials INFO Found credentials in environment variables.
-11:49:33,505 py4j.clientserver INFO Closing down clientserver connection
-11:55:30,27 etl_logger INFO PySpark Session Created!
-11:55:30,430 botocore.credentials INFO Found credentials in environment variables.
-11:55:34,765 py4j.clientserver INFO Closing down clientserver connection
-11:56:51,781 etl_logger INFO PySpark Session Created!
-11:56:52,183 botocore.credentials INFO Found credentials in environment variables.
-11:56:56,190 py4j.clientserver INFO Closing down clientserver connection
-12:02:12,804 etl_logger INFO PySpark Session Created!
-12:02:13,204 botocore.credentials INFO Found credentials in environment variables.
-12:02:17,307 botocore.credentials INFO Found credentials in environment variables.
-12:02:33,550 py4j.clientserver INFO Closing down clientserver connection
-12:23:25,705 etl_logger INFO PySpark Session Created!
-12:23:26,107 botocore.credentials INFO Found credentials in environment variables.
-12:23:30,234 botocore.credentials INFO Found credentials in environment variables.
-12:23:41,636 awswrangler.redshift ERROR {'S': 'ERROR', 'C': 'XX000', 'M': 'Spectrum Scan Error', 'D': '\n  -----------------------------------------------\n  error:  Spectrum Scan Error\n  code:      15007\n  context:   Unmatched number of columns between table and file. Table columns: 7, Data columns: 8, File name: https://s3.eu-west-1.amazonaws.com/redbucket337/nova.parquet/da2d334fa6bd4fc0a43ad6a8f22a4f2b_0.snappy.parquet\n  query:     16657\n  location:  dory_util.cpp:1377\n  process:   worker_thread [pid=27742]\n  -----------------------------------------------\n', 'F': '../src/sys/xen_execute.cpp', 'L': '10520', 'R': 'pg_throw'}
-12:23:43,383 py4j.clientserver INFO Closing down clientserver connection
-12:25:37,227 etl_logger INFO PySpark Session Created!
-12:25:37,692 botocore.credentials INFO Found credentials in environment variables.
-12:25:41,877 botocore.credentials INFO Found credentials in environment variables.
-12:25:45,760 awswrangler.redshift ERROR {'S': 'ERROR', 'C': 'XX000', 'M': 'Spectrum Scan Error', 'D': '\n  -----------------------------------------------\n  error:  Spectrum Scan Error\n  code:      15007\n  context:   Unmatched number of columns between table and file. Table columns: 7, Data columns: 8, File name: https://s3.eu-west-1.amazonaws.com/redbucket337/nova.parquet/77f73196c5ea49c3bf2efc5533e687fb_0.snappy.parquet\n  query:     16683\n  location:  dory_util.cpp:1377\n  process:   worker_thread [pid=28965]\n  -----------------------------------------------\n', 'F': '../src/sys/xen_execute.cpp', 'L': '10520', 'R': 'pg_throw'}
-12:25:47,492 py4j.clientserver INFO Closing down clientserver connection
-12:26:25,404 etl_logger INFO PySpark Session Created!
-12:26:25,944 botocore.credentials INFO Found credentials in environment variables.
-12:26:30,539 botocore.credentials INFO Found credentials in environment variables.
-12:26:34,448 awswrangler.redshift ERROR {'S': 'ERROR', 'C': 'XX000', 'M': 'Spectrum Scan Error', 'D': '\n  -----------------------------------------------\n  error:  Spectrum Scan Error\n  code:      15007\n  context:   Unmatched number of columns between table and file. Table columns: 7, Data columns: 8, File name: https://s3.eu-west-1.amazonaws.com/redbucket337/nova.parquet/5655ae76f86c412c9ef344b2c1c28bbe_0.snappy.parquet\n  query:     16696\n  location:  dory_util.cpp:1377\n  process:   worker_thread [pid=25212]\n  -----------------------------------------------\n', 'F': '../src/sys/xen_execute.cpp', 'L': '10520', 'R': 'pg_throw'}
-12:26:36,173 py4j.clientserver INFO Closing down clientserver connection
-12:30:25,595 etl_logger INFO PySpark Session Created!
-12:30:25,969 botocore.credentials INFO Found credentials in environment variables.
-12:30:30,28 botocore.credentials INFO Found credentials in environment variables.
-12:30:38,544 py4j.clientserver INFO Closing down clientserver connection
-12:38:31,1 etl_logger INFO PySpark Session Created!
-12:38:31,401 botocore.credentials INFO Found credentials in environment variables.
-12:38:35,420 botocore.credentials INFO Found credentials in environment variables.
-12:38:50,831 py4j.clientserver INFO Closing down clientserver connection
-15:19:42,44 etl_logger INFO PySpark Session Created!
-15:19:42,448 botocore.credentials INFO Found credentials in environment variables.
-15:19:45,837 py4j.clientserver INFO Closing down clientserver connection
-15:21:42,790 etl_logger INFO PySpark Session Created!
-15:21:43,214 botocore.credentials INFO Found credentials in environment variables.
-15:21:47,945 botocore.credentials INFO Found credentials in environment variables.
-15:21:56,581 py4j.clientserver INFO Closing down clientserver connection
+11:56:52,195 etl_logger INFO PySpark Session Created!
+11:56:52,622 botocore.credentials INFO Found credentials in environment variables.
+11:56:56,812 botocore.credentials INFO Found credentials in environment variables.
+11:57:11,303 etl_logger INFO PySpark Session Created!
+11:57:11,307 py4j.clientserver INFO Closing down clientserver connection
+12:27:02,330 etl_logger INFO PySpark Session Created!
+12:27:02,740 botocore.credentials INFO Found credentials in environment variables.
+12:27:06,800 botocore.credentials INFO Found credentials in environment variables.
+12:27:15,197 etl_logger INFO PySpark Session Created!
+12:27:24,962 py4j.clientserver INFO Closing down clientserver connection
+12:30:36,832 etl_logger INFO PySpark Session Created!
+12:30:37,242 botocore.credentials INFO Found credentials in environment variables.
+12:30:41,204 botocore.credentials INFO Found credentials in environment variables.
+12:30:49,704 etl_logger INFO PySpark Session Created!
+12:31:03,511 py4j.clientserver INFO Closing down clientserver connection
+13:00:49,521 etl_logger INFO PySpark Session Created!
+13:00:49,930 botocore.credentials INFO Found credentials in environment variables.
+13:00:54,27 botocore.credentials INFO Found credentials in environment variables.
+13:01:02,784 etl_logger INFO PySpark Session Created!
+13:01:16,999 py4j.clientserver INFO Closing down clientserver connection
+13:04:46,246 etl_logger INFO PySpark Session Created!
+13:04:46,683 botocore.credentials INFO Found credentials in environment variables.
+13:04:50,610 botocore.credentials INFO Found credentials in environment variables.
+13:04:59,288 etl_logger INFO PySpark Session Created!
+13:05:09,901 py4j.clientserver INFO Closing down clientserver connection
+13:10:51,461 etl_logger INFO PySpark Session Created!
+13:10:51,887 botocore.credentials INFO Found credentials in environment variables.
+13:10:55,909 botocore.credentials INFO Found credentials in environment variables.
+13:11:04,454 etl_logger INFO PySpark Session Created!
+13:11:18,354 py4j.clientserver INFO Closing down clientserver connection
+13:19:27,606 etl_logger INFO PySpark Session Created!
+13:19:56,835 py4j.clientserver INFO Closing down clientserver connection
+13:50:14,4 etl_logger INFO PySpark Session Created!
+13:50:43,530 py4j.clientserver INFO Closing down clientserver connection
+13:59:44,775 etl_logger INFO PySpark Session Created!
+14:00:14,318 py4j.clientserver INFO Closing down clientserver connection
+14:01:53,74 etl_logger INFO PySpark Session Created!
+14:02:05,421 py4j.clientserver INFO Closing down clientserver connection
+14:11:06,467 etl_logger INFO PySpark Session Created!
+14:11:36,118 py4j.clientserver INFO Closing down clientserver connection
+14:18:05,226 etl_logger INFO PySpark Session Created!
+14:18:48,875 py4j.clientserver INFO Closing down clientserver connection
+14:41:47,754 etl_logger INFO PySpark Session Created!
+14:42:00,743 py4j.clientserver INFO Closing down clientserver connection
+14:44:10,313 etl_logger INFO PySpark Session Created!
+14:44:52,484 py4j.clientserver INFO Closing down clientserver connection
+14:47:02,711 etl_logger INFO PySpark Session Created!
+14:47:44,906 py4j.clientserver INFO Closing down clientserver connection
+14:49:47,883 etl_logger INFO PySpark Session Created!
+14:50:01,280 py4j.clientserver INFO Closing down clientserver connection
+14:52:57,831 etl_logger INFO PySpark Session Created!
+14:53:10,374 py4j.clientserver INFO Closing down clientserver connection
+14:54:06,388 etl_logger INFO PySpark Session Created!
+14:54:19,737 py4j.clientserver INFO Closing down clientserver connection
+14:56:57,917 etl_logger INFO PySpark Session Created!
+14:57:16,758 py4j.clientserver INFO Closing down clientserver connection
+15:15:33,128 etl_logger INFO PySpark Session Created!
+15:15:53,52 py4j.clientserver INFO Closing down clientserver connection
+15:22:19,235 etl_logger INFO PySpark Session Created!
+15:22:45,52 py4j.clientserver INFO Closing down clientserver connection
+15:35:30,222 etl_logger INFO PySpark Session Created!
+15:35:41,508 py4j.clientserver INFO Closing down clientserver connection
+15:46:36,556 etl_logger INFO PySpark Session Created!
+15:46:47,932 py4j.clientserver INFO Closing down clientserver connection
+15:52:56,645 etl_logger INFO PySpark Session Created!
+15:53:11,814 py4j.clientserver INFO Closing down clientserver connection
+15:56:47,889 etl_logger INFO PySpark Session Created!
+15:57:02,32 py4j.clientserver INFO Closing down clientserver connection
+16:04:43,216 etl_logger INFO PySpark Session Created!
+16:05:04,80 py4j.clientserver INFO Closing down clientserver connection
+16:11:22,39 etl_logger INFO PySpark Session Created!
+16:11:43,884 py4j.clientserver INFO Closing down clientserver connection
+16:25:30,254 etl_logger INFO PySpark Session Created!
+16:25:51,876 py4j.clientserver INFO Closing down clientserver connection
+16:29:57,153 etl_logger INFO PySpark Session Created!
+16:30:20,920 py4j.clientserver INFO Closing down clientserver connection
+16:37:29,937 etl_logger INFO PySpark Session Created!
+16:37:52,22 etl_logger INFO PySpark Session Created!
+16:38:05,36 py4j.clientserver INFO Closing down clientserver connection
+16:38:52,435 etl_logger INFO PySpark Session Created!
+16:39:14,318 etl_logger INFO PySpark Session Created!
+16:39:26,565 py4j.clientserver INFO Closing down clientserver connection
+10:02:57,481 etl_logger INFO PySpark Session Created!
+10:03:23,989 etl_logger INFO PySpark Session Created!
+10:03:31,188 py4j.clientserver INFO Closing down clientserver connection
+10:05:28,639 etl_logger INFO PySpark Session Created!
+10:05:40,949 etl_logger INFO PySpark Session Created!
+10:05:57,3 py4j.clientserver INFO Closing down clientserver connection
+10:08:09,393 etl_logger INFO PySpark Session Created!
+10:08:20,152 etl_logger INFO PySpark Session Created!
+10:08:35,320 py4j.clientserver INFO Closing down clientserver connection
+10:10:53,190 etl_logger INFO PySpark Session Created!
+10:11:04,602 etl_logger INFO PySpark Session Created!
+10:11:20,910 py4j.clientserver INFO Closing down clientserver connection
+10:13:46,879 etl_logger INFO PySpark Session Created!
+10:13:58,197 etl_logger INFO PySpark Session Created!
+10:14:15,376 py4j.clientserver INFO Closing down clientserver connection
+10:15:11,246 etl_logger INFO PySpark Session Created!
+10:15:23,532 etl_logger INFO PySpark Session Created!
+10:15:41,452 py4j.clientserver INFO Closing down clientserver connection
+10:16:36,200 etl_logger INFO PySpark Session Created!
+10:16:54,594 etl_logger INFO PySpark Session Created!
+10:17:00,229 py4j.clientserver INFO Closing down clientserver connection
+10:29:51,563 etl_logger INFO PySpark Session Created!
+10:29:51,569 py4j.clientserver INFO Closing down clientserver connection
+10:31:26,288 etl_logger INFO PySpark Session Created!
+10:31:26,293 py4j.clientserver INFO Closing down clientserver connection
+10:36:55,328 etl_logger INFO PySpark Session Created!
+10:37:13,793 py4j.clientserver INFO Closing down clientserver connection
+10:44:38,310 etl_logger INFO PySpark Session Created!
+10:44:38,315 py4j.clientserver INFO Closing down clientserver connection
+10:45:28,633 etl_logger INFO PySpark Session Created!
+10:45:43,410 py4j.clientserver INFO Closing down clientserver connection
+10:52:20,359 etl_logger INFO PySpark Session Created!
+10:52:34,222 etl_logger INFO Schema check OK.
+10:52:45,296 etl_logger INFO Data rows are identical!
+10:52:45,319 py4j.clientserver INFO Closing down clientserver connection
+10:53:53,896 etl_logger INFO PySpark Session Created!
+10:54:19,612 py4j.clientserver INFO Closing down clientserver connection
+10:56:00,27 etl_logger INFO PySpark Session Created!
+10:56:22,546 py4j.clientserver INFO Closing down clientserver connection
+10:57:01,483 etl_logger INFO PySpark Session Created!
+10:57:24,37 py4j.clientserver INFO Closing down clientserver connection
+10:57:42,868 etl_logger INFO PySpark Session Created!
+10:57:57,634 py4j.clientserver INFO Closing down clientserver connection
