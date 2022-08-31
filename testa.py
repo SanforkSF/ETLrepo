@@ -78,16 +78,16 @@ driver_postgres = "org.postgresql.Driver"
 
 ## WRITE DATA TO POSTGRESQL DB TABLE
 
-# write_to_db_table(df=df, url=jdbc_url_postgres, dbtable='codes_pg', user=user_postgres, password=password_postgres,
-#                   driver='org.postgresql.Driver', mode='append')
+write_to_db_table(df=df, url=jdbc_url_postgres, dbtable='codes_pg', user=user_postgres, password=password_postgres,
+                  driver='org.postgresql.Driver', mode='append')
 
-# logger.info('Data has been written to Postgresql DB table!')
+logger.info('Data has been written to Postgresql DB table!')
 
 ## READ data from postgres db
 
-# rdf_pg = read_df_from_table(spark=spark, url=jdbc_url_postgres, dbtable='codes_one', user=user_postgres, password=password_postgres,
-#                             driver=driver_postgres)
-# rdf_pg.show()
+rdf_pg = read_df_from_table(spark=spark, url=jdbc_url_postgres, dbtable='codes_pg', user=user_postgres, password=password_postgres,
+                            driver=driver_postgres)
+rdf_pg.show()
 
 ### TO MYSQL
 
@@ -223,63 +223,63 @@ def check_sync(mysql_table: str, pg_table: str):
 mysql_table1 = 'codes_ms'
 pg_table1 = 'codes_pg'
 
-check_sync(mysql_table=mysql_table1, pg_table=pg_table1)
+# check_sync(mysql_table=mysql_table1, pg_table=pg_table1)
 
-## DATA FROM POSTGRESQL TO REDSHIFT DB
-
-import redshift_connector
-
-## UNCOMMENT TO read data from postgres and create pandas dataframe
-
-# rdf_pg = read_df_from_table(spark=spark, url=jdbc_url_postgres, dbtable='codes_one', user=user_postgres, password=password_postgres,
-#                             driver=driver_postgres)
-# pd_rdf = rdf_pg.toPandas()
-
-## REDSHIFT SECRETS MANAGEMENT
-
-secret_name_redshift = os.getenv('SECRET_NAME_REDSHIFT')
-
-redshift_secrets = get_secret(secret_name=secret_name_redshift, region_name=region_name,
-                              aws_access_key_id=aws_access_key_id,
-                              aws_secret_access_key=aws_secret_access_key)
-## Creating boto3 session
-session = boto3.session.Session(aws_access_key_id=aws_access_key_id,
-                                aws_secret_access_key=aws_secret_access_key,
-                                region_name=os.getenv('REGION_NAME'))
-s3_bucket1 = os.getenv('S3_BUCKET1')
-
-## Converting pandas dataframe with data from postgres to parquet file to s3
-
-# wr.s3.to_parquet(
-#     df=pd_rdf,
-#     path=f's3://{s3_bucket1}/pgpandas.parquet',
-# )
-
-s3_parquet_path = f"s3://{s3_bucket1}/pgpandas.parquet"
-
-df_parq = wr.s3.read_parquet(path=s3_parquet_path)
-
-## CHOOSE ONE TYPE OF CONNECTION
-
-print('connection creation....')
-
-## First way with credential type connection
-
-# conn = redshift_connector.connect(
-#     host=redshift_secrets['host'],
-#     database='read-dead',
-#     user=redshift_secrets['username'],
-#     password=redshift_secrets['password'])
-
-## Second way with Glue Connection
-conn = wr.redshift.connect(connection=os.getenv('GLUE_CONNECTION'), boto3_session=session, )
-
-print('connected.')
-
-## Using .copy method from aws wrangler to insert data from s3 to redshift db table (change table name if you wish)
-
-# wr.redshift.copy(df=df_parq, path=f's3://{s3_bucket1}/nova1.parquet', con=conn, table='pusher3', schema="public",
-#                  primary_keys=['id'], mode='overwrite')
-# print('done')
-# conn.close()
+# ## DATA FROM POSTGRESQL TO REDSHIFT DB
+#
+# import redshift_connector
+#
+# ## UNCOMMENT TO read data from postgres and create pandas dataframe
+#
+# # rdf_pg = read_df_from_table(spark=spark, url=jdbc_url_postgres, dbtable='codes_one', user=user_postgres, password=password_postgres,
+# #                             driver=driver_postgres)
+# # pd_rdf = rdf_pg.toPandas()
+#
+# ## REDSHIFT SECRETS MANAGEMENT
+#
+# secret_name_redshift = os.getenv('SECRET_NAME_REDSHIFT')
+#
+# redshift_secrets = get_secret(secret_name=secret_name_redshift, region_name=region_name,
+#                               aws_access_key_id=aws_access_key_id,
+#                               aws_secret_access_key=aws_secret_access_key)
+# ## Creating boto3 session
+# session = boto3.session.Session(aws_access_key_id=aws_access_key_id,
+#                                 aws_secret_access_key=aws_secret_access_key,
+#                                 region_name=os.getenv('REGION_NAME'))
+# s3_bucket1 = os.getenv('S3_BUCKET1')
+#
+# ## Converting pandas dataframe with data from postgres to parquet file to s3
+#
+# # wr.s3.to_parquet(
+# #     df=pd_rdf,
+# #     path=f's3://{s3_bucket1}/pgpandas.parquet',
+# # )
+#
+# s3_parquet_path = f"s3://{s3_bucket1}/pgpandas.parquet"
+#
+# df_parq = wr.s3.read_parquet(path=s3_parquet_path)
+#
+# ## CHOOSE ONE TYPE OF CONNECTION
+#
+# print('connection creation....')
+#
+# ## First way with credential type connection
+#
+# # conn = redshift_connector.connect(
+# #     host=redshift_secrets['host'],
+# #     database='read-dead',
+# #     user=redshift_secrets['username'],
+# #     password=redshift_secrets['password'])
+#
+# ## Second way with Glue Connection
+# conn = wr.redshift.connect(connection=os.getenv('GLUE_CONNECTION'), boto3_session=session, )
+#
+# print('connected.')
+#
+# ## Using .copy method from aws wrangler to insert data from s3 to redshift db table (change table name if you wish)
+#
+# # wr.redshift.copy(df=df_parq, path=f's3://{s3_bucket1}/nova1.parquet', con=conn, table='pusher3', schema="public",
+# #                  primary_keys=['id'], mode='overwrite')
+# # print('done')
+# # conn.close()
 

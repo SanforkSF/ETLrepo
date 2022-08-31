@@ -123,3 +123,182 @@
 10:57:24,37 py4j.clientserver INFO Closing down clientserver connection
 10:57:42,868 etl_logger INFO PySpark Session Created!
 10:57:57,634 py4j.clientserver INFO Closing down clientserver connection
+12:30:12,865 etl_logger INFO PySpark Session Created!
+12:30:38,655 py4j.clientserver INFO Closing down clientserver connection
+15:14:46,763 etl_logger INFO PySpark Session Created!
+15:15:00,143 py4j.clientserver INFO Closing down clientserver connection
+16:32:26,188 etl_logger INFO PySpark Session Created!
+16:32:33,468 py4j.clientserver INFO Error while sending or receiving.
+Traceback (most recent call last):
+  File "C:\Users\Oleksandr Forkun\AppData\Local\Programs\Python\Python39\lib\socket.py", line 704, in readinto
+    return self._sock.recv_into(b)
+ConnectionResetError: [WinError 10054] An existing connection was forcibly closed by the remote host
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Spark\spark-3.2.2-bin-hadoop2.7\python\lib\py4j-0.10.9.5-src.zip\py4j\clientserver.py", line 503, in send_command
+    self.socket.sendall(command.encode("utf-8"))
+ConnectionResetError: [WinError 10054] An existing connection was forcibly closed by the remote host
+16:32:33,469 py4j.clientserver INFO Closing down clientserver connection
+16:32:33,470 root INFO Exception while sending command.
+Traceback (most recent call last):
+  File "C:\Users\Oleksandr Forkun\AppData\Local\Programs\Python\Python39\lib\socket.py", line 704, in readinto
+    return self._sock.recv_into(b)
+ConnectionResetError: [WinError 10054] An existing connection was forcibly closed by the remote host
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Spark\spark-3.2.2-bin-hadoop2.7\python\lib\py4j-0.10.9.5-src.zip\py4j\clientserver.py", line 503, in send_command
+    self.socket.sendall(command.encode("utf-8"))
+ConnectionResetError: [WinError 10054] An existing connection was forcibly closed by the remote host
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Spark\spark-3.2.2-bin-hadoop2.7\python\lib\py4j-0.10.9.5-src.zip\py4j\java_gateway.py", line 1038, in send_command
+    response = connection.send_command(command)
+  File "C:\Spark\spark-3.2.2-bin-hadoop2.7\python\lib\py4j-0.10.9.5-src.zip\py4j\clientserver.py", line 506, in send_command
+    raise Py4JNetworkError(
+py4j.protocol.Py4JNetworkError: Error while sending
+16:32:33,664 py4j.clientserver INFO Error while sending or receiving.
+Traceback (most recent call last):
+  File "C:\Spark\spark-3.2.2-bin-hadoop2.7\python\lib\py4j-0.10.9.5-src.zip\py4j\clientserver.py", line 503, in send_command
+    self.socket.sendall(command.encode("utf-8"))
+ConnectionResetError: [WinError 10054] An existing connection was forcibly closed by the remote host
+16:32:33,664 py4j.clientserver INFO Closing down clientserver connection
+16:32:33,666 root INFO Exception while sending command.
+Traceback (most recent call last):
+  File "C:\Spark\spark-3.2.2-bin-hadoop2.7\python\lib\py4j-0.10.9.5-src.zip\py4j\clientserver.py", line 503, in send_command
+    self.socket.sendall(command.encode("utf-8"))
+ConnectionResetError: [WinError 10054] An existing connection was forcibly closed by the remote host
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Spark\spark-3.2.2-bin-hadoop2.7\python\lib\py4j-0.10.9.5-src.zip\py4j\java_gateway.py", line 1038, in send_command
+    response = connection.send_command(command)
+  File "C:\Spark\spark-3.2.2-bin-hadoop2.7\python\lib\py4j-0.10.9.5-src.zip\py4j\clientserver.py", line 506, in send_command
+    raise Py4JNetworkError(
+py4j.protocol.Py4JNetworkError: Error while sending
+16:32:35,501 py4j.clientserver INFO Closing down clientserver connection
+16:32:35,501 py4j.clientserver INFO Error while receiving.
+Traceback (most recent call last):
+  File "C:\Users\Oleksandr Forkun\AppData\Local\Programs\Python\Python39\lib\socket.py", line 704, in readinto
+    return self._sock.recv_into(b)
+ConnectionResetError: [WinError 10054] An existing connection was forcibly closed by the remote host
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Spark\spark-3.2.2-bin-hadoop2.7\python\lib\py4j-0.10.9.5-src.zip\py4j\clientserver.py", line 503, in send_command
+    self.socket.sendall(command.encode("utf-8"))
+ConnectionResetError: [WinError 10054] An existing connection was forcibly closed by the remote host
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Spark\spark-3.2.2-bin-hadoop2.7\python\lib\py4j-0.10.9.5-src.zip\py4j\java_gateway.py", line 1038, in send_command
+    response = connection.send_command(command)
+  File "C:\Spark\spark-3.2.2-bin-hadoop2.7\python\lib\py4j-0.10.9.5-src.zip\py4j\clientserver.py", line 506, in send_command
+    raise Py4JNetworkError(
+py4j.protocol.Py4JNetworkError: Error while sending
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Spark\spark-3.2.2-bin-hadoop2.7\python\lib\py4j-0.10.9.5-src.zip\py4j\clientserver.py", line 511, in send_command
+    answer = smart_decode(self.stream.readline()[:-1])
+  File "C:\Users\Oleksandr Forkun\AppData\Local\Programs\Python\Python39\lib\socket.py", line 704, in readinto
+    return self._sock.recv_into(b)
+  File "C:\Spark\spark-3.2.2-bin-hadoop2.7\python\pyspark\context.py", line 292, in signal_handler
+    self.cancelAllJobs()
+  File "C:\Spark\spark-3.2.2-bin-hadoop2.7\python\pyspark\context.py", line 1195, in cancelAllJobs
+    self._jsc.sc().cancelAllJobs()
+  File "C:\Spark\spark-3.2.2-bin-hadoop2.7\python\lib\py4j-0.10.9.5-src.zip\py4j\java_gateway.py", line 1320, in __call__
+    answer = self.gateway_client.send_command(command)
+  File "C:\Spark\spark-3.2.2-bin-hadoop2.7\python\lib\py4j-0.10.9.5-src.zip\py4j\java_gateway.py", line 1053, in send_command
+    response = self.send_command(command, binary=binary)
+  File "C:\Spark\spark-3.2.2-bin-hadoop2.7\python\lib\py4j-0.10.9.5-src.zip\py4j\java_gateway.py", line 1036, in send_command
+    connection = self._get_connection()
+  File "C:\Spark\spark-3.2.2-bin-hadoop2.7\python\lib\py4j-0.10.9.5-src.zip\py4j\clientserver.py", line 284, in _get_connection
+    connection = self._create_new_connection()
+  File "C:\Spark\spark-3.2.2-bin-hadoop2.7\python\lib\py4j-0.10.9.5-src.zip\py4j\clientserver.py", line 291, in _create_new_connection
+    connection.connect_to_java_server()
+  File "C:\Spark\spark-3.2.2-bin-hadoop2.7\python\lib\py4j-0.10.9.5-src.zip\py4j\clientserver.py", line 438, in connect_to_java_server
+    self.socket.connect((self.java_address, self.java_port))
+ConnectionRefusedError: [WinError 10061] No connection could be made because the target machine actively refused it
+16:32:35,502 py4j.clientserver INFO Closing down clientserver connection
+16:32:35,502 root ERROR Exception while sending command.
+Traceback (most recent call last):
+  File "C:\Users\Oleksandr Forkun\AppData\Local\Programs\Python\Python39\lib\socket.py", line 704, in readinto
+    return self._sock.recv_into(b)
+ConnectionResetError: [WinError 10054] An existing connection was forcibly closed by the remote host
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Spark\spark-3.2.2-bin-hadoop2.7\python\lib\py4j-0.10.9.5-src.zip\py4j\clientserver.py", line 503, in send_command
+    self.socket.sendall(command.encode("utf-8"))
+ConnectionResetError: [WinError 10054] An existing connection was forcibly closed by the remote host
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Spark\spark-3.2.2-bin-hadoop2.7\python\lib\py4j-0.10.9.5-src.zip\py4j\java_gateway.py", line 1038, in send_command
+    response = connection.send_command(command)
+  File "C:\Spark\spark-3.2.2-bin-hadoop2.7\python\lib\py4j-0.10.9.5-src.zip\py4j\clientserver.py", line 506, in send_command
+    raise Py4JNetworkError(
+py4j.protocol.Py4JNetworkError: Error while sending
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Spark\spark-3.2.2-bin-hadoop2.7\python\lib\py4j-0.10.9.5-src.zip\py4j\clientserver.py", line 511, in send_command
+    answer = smart_decode(self.stream.readline()[:-1])
+  File "C:\Users\Oleksandr Forkun\AppData\Local\Programs\Python\Python39\lib\socket.py", line 704, in readinto
+    return self._sock.recv_into(b)
+  File "C:\Spark\spark-3.2.2-bin-hadoop2.7\python\pyspark\context.py", line 292, in signal_handler
+    self.cancelAllJobs()
+  File "C:\Spark\spark-3.2.2-bin-hadoop2.7\python\pyspark\context.py", line 1195, in cancelAllJobs
+    self._jsc.sc().cancelAllJobs()
+  File "C:\Spark\spark-3.2.2-bin-hadoop2.7\python\lib\py4j-0.10.9.5-src.zip\py4j\java_gateway.py", line 1320, in __call__
+    answer = self.gateway_client.send_command(command)
+  File "C:\Spark\spark-3.2.2-bin-hadoop2.7\python\lib\py4j-0.10.9.5-src.zip\py4j\java_gateway.py", line 1053, in send_command
+    response = self.send_command(command, binary=binary)
+  File "C:\Spark\spark-3.2.2-bin-hadoop2.7\python\lib\py4j-0.10.9.5-src.zip\py4j\java_gateway.py", line 1036, in send_command
+    connection = self._get_connection()
+  File "C:\Spark\spark-3.2.2-bin-hadoop2.7\python\lib\py4j-0.10.9.5-src.zip\py4j\clientserver.py", line 284, in _get_connection
+    connection = self._create_new_connection()
+  File "C:\Spark\spark-3.2.2-bin-hadoop2.7\python\lib\py4j-0.10.9.5-src.zip\py4j\clientserver.py", line 291, in _create_new_connection
+    connection.connect_to_java_server()
+  File "C:\Spark\spark-3.2.2-bin-hadoop2.7\python\lib\py4j-0.10.9.5-src.zip\py4j\clientserver.py", line 438, in connect_to_java_server
+    self.socket.connect((self.java_address, self.java_port))
+ConnectionRefusedError: [WinError 10061] No connection could be made because the target machine actively refused it
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Spark\spark-3.2.2-bin-hadoop2.7\python\lib\py4j-0.10.9.5-src.zip\py4j\java_gateway.py", line 1038, in send_command
+    response = connection.send_command(command)
+  File "C:\Spark\spark-3.2.2-bin-hadoop2.7\python\lib\py4j-0.10.9.5-src.zip\py4j\clientserver.py", line 539, in send_command
+    raise Py4JNetworkError(
+py4j.protocol.Py4JNetworkError: Error while sending or receiving
+16:32:35,503 py4j.clientserver INFO Closing down clientserver connection
+16:32:35,503 py4j.clientserver INFO Closing down clientserver connection
+16:32:58,157 etl_logger INFO PySpark Session Created!
+16:33:19,674 etl_logger INFO Data has been written to Postgresql DB table!
+16:33:21,888 py4j.clientserver INFO Closing down clientserver connection
+16:38:13,564 etl_logger INFO PySpark Session Created!
+16:38:37,301 etl_logger INFO Data has been written to Postgresql DB table!
+16:38:39,687 py4j.clientserver INFO Closing down clientserver connection
+16:39:37,467 etl_logger INFO PySpark Session Created!
+16:40:00,384 etl_logger INFO Data has been written to Postgresql DB table!
+16:40:02,620 py4j.clientserver INFO Closing down clientserver connection
+16:43:44,135 etl_logger INFO PySpark Session Created!
+16:44:06,560 etl_logger INFO Data has been written to Postgresql DB table!
+16:44:08,836 py4j.clientserver INFO Closing down clientserver connection
+16:46:44,749 etl_logger INFO PySpark Session Created!
+16:47:08,970 etl_logger INFO Data has been written to Postgresql DB table!
+16:47:11,303 py4j.clientserver INFO Closing down clientserver connection
