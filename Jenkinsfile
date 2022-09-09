@@ -1,10 +1,37 @@
 pipeline {
-    agent { dockerfile true }
+    agent any
+    options {
+        skipStagesAfterUnstable()
+    }
     stages {
-        stage('Test') {
+         stage('Clone repository') { 
+            steps { 
+                script{
+                checkout scm
+                }
+            }
+        }
+
+        stage('Build') { 
+            steps { 
+                script{
+                 app = docker.build("itestjenkins")
+                }
+            }
+        }
+        stage('Test'){
             steps {
-                sh 'python3 --version'
-                sh 'java -version'
+                 echo 'Empty'
+            }
+        }
+        stage('Deploy') {
+            steps {
+                script{
+                        docker.withRegistry('https://081793785751.dkr.ecr.eu-west-1.amazonaws.com', 'ecr:eu-west-1:aws-credentials') {
+                    app.push("${env.BUILD_NUMBER}")
+                    app.push("latest")
+                    }
+                }
             }
         }
     }
