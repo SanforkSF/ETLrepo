@@ -99,7 +99,7 @@ driver_mysql = 'com.mysql.cj.jdbc.Driver'
 
 ## WRITE DATA TO MYSQL DB TABLE
 
-# write_to_db_table(df=df, url=jdbc_url_mysql, dbtable='codes_two', user=user_mysql, password=password_mysql,
+# write_to_db_table(df=df, url=jdbc_url_mysql, dbtable='codes_ms', user=user_mysql, password=password_mysql,
 #                   driver='com.mysql.cj.jdbc.Driver', mode='append')
 # logger.info('Data has been written to MySQL DB table!')
 
