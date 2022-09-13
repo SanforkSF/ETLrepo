@@ -9,7 +9,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       IMAGE_NAME: artimage
-      PROJECT_ID: DigicodeSandbox03
+      PROJECT_ID: digicodesandbox03
     steps:
     - name: Checkout
       uses: actions/checkout@v2
