@@ -15,7 +15,7 @@ pipeline {
         stage('Build') { 
             steps { 
                 script{
-                 app = docker.build("itestjenkins")
+                 app = docker.build("artimage")
                 }
             }
         }
@@ -27,7 +27,7 @@ pipeline {
         stage('Deploy') {
             steps {
                 script{
-                        docker.withRegistry('https://081793785751.dkr.ecr.eu-west-1.amazonaws.com', 'ecr:eu-west-1:aws-credentials') {
+                        docker.withRegistry('https://europe-central2-docker.pkg.dev/digicodesandbox03/artirep', 'DigicodeSandbox03') {
                     app.push("${env.BUILD_NUMBER}")
                     app.push("latest")
                     }
