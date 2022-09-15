@@ -159,6 +159,6 @@ class SparkSessionClass():
             builder = builder.master(master)
 
         if spark_jars is not None:
-            builder = builder.config('spark.jars', spark_jars)
+            builder = builder.config('spark.jars', spark_jars).config('spark.driver.host', 'localhost')
         self.spark_session = builder.getOrCreate()
         return self.spark_session
