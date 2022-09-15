@@ -52,6 +52,7 @@ RUN apt-get update && \
     apt-get clean && rm -rf /var/lib/apt/lists/*  && \
 # Set entry point & execution rights
     chmod +x /opt/codificator-etl/entrypoint.sh && \
-    . /opt/codificator-etl/bin/activate
+    . /opt/codificator-etl/bin/activate && \
+    export SPARK_LOCAL_IP="127.0.0.1"
 
 ENTRYPOINT ["/opt/codificator-etl/entrypoint.sh"]
