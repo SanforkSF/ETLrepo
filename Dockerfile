@@ -15,6 +15,7 @@ RUN apt-get update && apt-get install curl -y && apt-get install -y gnupg2 && ap
     apt-get install -y virtualenv && \
     python3 -m venv /opt/codificator-etl/
 
+ENV SPARK_LOCAL_IP="127.0.0.1"
 
 WORKDIR /opt/codificator-etl/
 
