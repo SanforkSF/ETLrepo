@@ -165,7 +165,7 @@ def check_sync(mysql_table: str, pg_table: str):
         logger.info('Preparing to insert missed data into Postgres table...')
 
         # create sorted by id dataframe of missing rows
-        df_rows_not_in_postgres_from_mysql = df_mysql_subtract_pg.sort(col('id').asc())
+        df_rows_not_in_postgres_from_mysql = df_mysql_subtract_pg
         write_to_db_table(df=df_rows_not_in_postgres_from_mysql,
                           url=jdbc_url_postgres,
                           dbtable=pg_table,
@@ -182,7 +182,7 @@ def check_sync(mysql_table: str, pg_table: str):
         logger.info('Preparing to insert missed data into MySQL table...')
 
         # create sorted by id dataframe of missing rows
-        df_rows_not_in_mysql_from_postgres = df_pg_subtract_mysql.sort(col('id').asc())
+        df_rows_not_in_mysql_from_postgres = df_pg_subtract_mysql
         write_to_db_table(df=df_rows_not_in_mysql_from_postgres,
                           url=jdbc_url_mysql,
                           dbtable=mysql_table,
@@ -198,7 +198,7 @@ def check_sync(mysql_table: str, pg_table: str):
         logger.info('Different rows in both tables... Preparing data...')
 
         # create sorted by id dataframe of missing rows in postgres
-        df_rows_not_in_postgres_from_mysql = df_mysql_subtract_pg.sort(col('id').asc())
+        df_rows_not_in_postgres_from_mysql = df_mysql_subtract_pg
         write_to_db_table(df=df_rows_not_in_postgres_from_mysql,
                           url=jdbc_url_postgres,
                           dbtable=pg_table,
@@ -210,7 +210,7 @@ def check_sync(mysql_table: str, pg_table: str):
         logger.info('END (adding data to POSTGRES table)')
 
         # create sorted by id dataframe of missing rows in mysql
-        df_rows_not_in_mysql_from_postgres = df_pg_subtract_mysql.sort(col('id').asc())
+        df_rows_not_in_mysql_from_postgres = df_pg_subtract_mysql
         write_to_db_table(df=df_rows_not_in_mysql_from_postgres,
                           url=jdbc_url_mysql,
                           dbtable=mysql_table,
